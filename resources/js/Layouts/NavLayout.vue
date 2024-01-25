@@ -3,9 +3,9 @@
         <div class="mx-auto max-w-full px-4 sm:px-6 ">
             <div class="flex items-center justify-between py-2 md:justify-start md:space-x-10">
                 <div class="flex justify-start lg:w-0 lg:flex-1">
-                    <NuxtLink to="/" class="flex items-center">
+                    <Link href="/" class="flex items-center">
                         <LogoNav />
-                    </NuxtLink>
+                    </Link>
                 </div>
                 <div class="-my-2 -mr-2 md:hidden">
                     <button class="m-3" @click="toggleDark()">
@@ -148,13 +148,13 @@
                                     item.name }}</NuxtLink>
                         </div>
                         <div>
-                            <NuxtLink to="register"
+                            <Link to="register"
                                 class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-                                Sign up</NuxtLink>
+                                Sign up</Link>
                             <p class="mt-6 text-center text-base font-medium text-gray-500">
                                 Existing customer?
                                 {{ ' ' }}
-                                <NuxtLink to="/" class="text-indigo-600 hover:text-indigo-500">Sign in</NuxtLink>
+                                <Link to="/" class="text-indigo-600 hover:text-indigo-500">Sign in</Link>
                             </p>
                         </div>
                     </div>
@@ -166,6 +166,7 @@
 </template>
 
 <script setup>
+import { Head, Link } from '@inertiajs/vue3';
 import { useDark, useToggle } from '@vueuse/core';
 import { Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/vue'
 import {
