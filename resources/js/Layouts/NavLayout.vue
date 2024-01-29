@@ -19,11 +19,11 @@
                     </PopoverButton>
                 </div>
                 <PopoverGroup as="nav" class="hidden space-x-10 md:flex">
-                    <router-link to="/"
-                        class="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-gray-200">Home</router-link>
-                    <router-link to="/suppliers"
+                    <Link href="/"
+                        class="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-gray-200">Home</Link>
+                    <Link :href="route('login')"
                         class="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-gray-200">Supplies
-                    </router-link>
+                    </Link>
 
                     <Popover class="relative" v-slot="{ open }">
                         <PopoverButton
