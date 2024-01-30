@@ -89,10 +89,10 @@
                         dashboard</NuxtLink>
 
                     <template v-else>
-                        <NuxtLink to="/auth/login"
+                        <Link :href="route('login')"
                             class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900 dark:text-blue-200 dark:hover:text-blue-500">
                             <UserCircleIcon class="w-6 h-6 text-gray-800 dark:text-white font-bold" />
-                        </NuxtLink>
+                        </Link>
 
                     </template>
 
