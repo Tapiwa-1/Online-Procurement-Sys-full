@@ -10,14 +10,19 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
+
                 </div>
             </div>
         </div> -->
-        <div class="mb-3 text-gray-500 dark:text-gray-400">
+        <template #header>
+            <div class="mb-3 text-gray-500 dark:text-gray-400">
                 <DashboardTopHeading :name="username" />
             </div>
-            <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        </template>
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
                 <div class="col-span-2">
                     <div class="mb-3 text-gray-500 dark:text-gray-400 shadow">
                         <StatisticsSlot>
@@ -82,6 +87,10 @@
             <div class="mb-3 text-gray-500 dark:text-gray-400">
                 <Footer />
             </div>
+                </div>
+            </div>
+        </div>
+
 
     </AuthenticatedLayout>
 </template>
