@@ -1,20 +1,7 @@
-
 <template>
-    <Head title="Dashboard" />
-
-    <AuthenticatedLayout>
-        <!-- <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
-        </template>
-
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
-                </div>
-            </div>
-        </div> -->
-        <div class="mb-3 text-gray-500 dark:text-gray-400">
+    <NuxtLayout name="authenticated-layout">
+        <div class="container mx-auto">
+            <div class="mb-3 text-gray-500 dark:text-gray-400">
                 <DashboardTopHeading :name="username" />
             </div>
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -83,17 +70,11 @@
                 <Footer />
             </div>
 
-    </AuthenticatedLayout>
+        </div>
+
+    </NuxtLayout>
 </template>
 <script setup>
-import { ref } from 'vue';
-import DashboardTopHeading from '@/Components/DashboardTopHeading.vue';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import StatisticsSlot from '@/Components/StatisticsSlot.vue';
-import TableSlot from '@/Components/TableSlot.vue'
-import { Head } from '@inertiajs/vue3';
-import Footer from '@/Components/Footer.vue';
-
 const users = ref([
     { id: 1, name: "Tapiwa Motsi", email: "tmosti10@gmail.com", role: "Admin" },
     { id: 1, name: "John Doe", email: "Jdoe@gmail.com", role: "supplier" },
