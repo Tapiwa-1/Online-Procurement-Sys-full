@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
-class AdminSeed extends Seeder
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+class AdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.

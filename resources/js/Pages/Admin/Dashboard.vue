@@ -16,7 +16,7 @@
         </div> -->
         <template #header>
             <div class="mb-3 text-gray-500 dark:text-gray-400">
-                <DashboardTopHeading :name="username" />
+                <DashboardTopHeading :name="'Welcome' + username" />
             </div>
         </template>
         <div class="py-12">
@@ -29,7 +29,7 @@
                             <dl
                                 class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 sm:grid-cols-3 dark:text-white sm:p-8">
                                 <div class="flex flex-col">
-                                    <dt class="mb-2 text-3xl font-extrabold">00.0%</dt>
+                                    <dt class="mb-2 text-3xl font-extrabold">{{cpu}}%</dt>
                                     <dd class="text-gray-500 dark:text-gray-400">CPU Usage</dd>
                                 </div>
                                 <div class="flex flex-col">
@@ -118,4 +118,28 @@ const tableMeta = ref({
     url: "/admin/users",
     urlName: "View More"
 })
+
+let cpu = displayRandomNumber.cpu
+let memory = displayRandomNumber.memory
+let health = displayRandomNumber.health
+
+function getRandomNumber(min, max) {
+  // Ensure inclusive range by adding 1 to max
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function displayRandomNumber() {
+  const randomNumber = getRandomNumber(10, 20);
+  return {
+    cpu : getRandomNumber(0, 20),
+    memory: getRandomNumber(45, 50),
+    health: getRandomNumber(96, 100)
+  }
+}
+
+// Call the function initially to display a number
+displayRandomNumber();
+
+// Set an interval to update the number every 3 seconds
+setInterval(displayRandomNumber, 3000);
 </script>
