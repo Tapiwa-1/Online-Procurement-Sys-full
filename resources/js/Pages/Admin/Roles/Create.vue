@@ -34,9 +34,9 @@ const submit = () => {
             </div>
         </template>
          <div class="py-12">
-            <div class="max-w-md min-h-screen mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl min-h-screen mx-auto sm:px-6 lg:px-8">
                 <div class=" overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class=" shadow-md sm:rounded-lg">
                          <div class="py-12">
                             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

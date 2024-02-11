@@ -33,11 +33,11 @@
                                     <dd class="text-gray-500 dark:text-gray-400">CPU Usage</dd>
                                 </div>
                                 <div class="flex flex-col">
-                                    <dt class="mb-2 text-3xl font-extrabold">0.0</dt>
+                                    <dt class="mb-2 text-3xl font-extrabold">{{ memory }} %</dt>
                                     <dd class="text-gray-500 dark:text-gray-400">Memory Usage</dd>
                                 </div>
                                 <div class="flex flex-col">
-                                    <dt class="mb-2 text-3xl font-extrabold text-green-400">100%</dt>
+                                    <dt class="mb-2 text-3xl font-extrabold text-green-400">{{ healthyPercentage }} %</dt>
                                     <dd class="text-gray-500 dark:text-gray-400">System health</dd>
                                 </div>
                             </dl>
@@ -95,7 +95,7 @@
     </AuthenticatedLayout>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref , onMounted} from 'vue';
 import DashboardTopHeading from '@/Components/DashboardTopHeading.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import StatisticsSlot from '@/Components/StatisticsSlot.vue';
@@ -118,28 +118,24 @@ const tableMeta = ref({
     url: "/admin/users",
     urlName: "View More"
 })
+const cpu = ref(0);
+const memory = ref(0);
+const healthyPercentage = ref(0);
 
-let cpu = displayRandomNumber.cpu
-let memory = displayRandomNumber.memory
-let health = displayRandomNumber.health
+const updateValues = () => {
+  cpu.value = getRandomNumber(3.5, 5.6);
+  memory.value = getRandomNumber(45.3, 56.6);
+  healthyPercentage.value = getRandomNumber(96.6, 100);
+};
 
-function getRandomNumber(min, max) {
-  // Ensure inclusive range by adding 1 to max
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+const getRandomNumber = (min, max) => {
+  return (Math.random() * (max - min) + min).toFixed(1);
+};
 
-function displayRandomNumber() {
-  const randomNumber = getRandomNumber(10, 20);
-  return {
-    cpu : getRandomNumber(0, 20),
-    memory: getRandomNumber(45, 50),
-    health: getRandomNumber(96, 100)
-  }
-}
+// Initial call to update values
+updateValues();
 
-// Call the function initially to display a number
-displayRandomNumber();
-
-// Set an interval to update the number every 3 seconds
-setInterval(displayRandomNumber, 3000);
+// Update values every 3 seconds
+setInterval(updateValues, 3000);
 </script>
+
