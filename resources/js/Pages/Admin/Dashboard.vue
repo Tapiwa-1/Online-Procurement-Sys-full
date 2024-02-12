@@ -16,7 +16,7 @@
         </div> -->
         <template #header>
             <div class="mb-3 text-gray-500 dark:text-gray-400">
-                <DashboardTopHeading :name="'Welcome' + username" />
+                <DashboardTopHeading :name="'Welcome ' + $page.props.auth.user.name" />
             </div>
         </template>
         <div class="py-12">
