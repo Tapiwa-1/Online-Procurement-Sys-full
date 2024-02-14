@@ -103,14 +103,17 @@ import TableSlot from '@/Components/TableSlot.vue'
 import { Head } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
 
-const users = ref([
-    { id: 1, name: "Tapiwa Motsi", email: "tmosti10@gmail.com", role: "Admin" },
-    { id: 1, name: "John Doe", email: "Jdoe@gmail.com", role: "supplier" },
-    { id: 1, name: "Mutsa Muguti", email: "mmuguti&gmail.com", role: "IT director" },
-    { id: 1, name: "Nelson Nunga", email: "nnunga@gmail.com", role: "Proc director" },
-    { id: 1, name: "Farai Kanoda", email: "fkanoda@gmail.com", role: "Fin director" },
-    { id: 1, name: "Gibson Wodzi", email: "gwodzi0@gmail.com", role: "Proc officer" },
-])
+defineProps({
+    users: Object
+})
+// const users = ref([
+//     { id: 1, name: "Tapiwa Motsi", email: "tmosti10@gmail.com", role: "Admin" },
+//     { id: 1, name: "John Doe", email: "Jdoe@gmail.com", role: "supplier" },
+//     { id: 1, name: "Mutsa Muguti", email: "mmuguti&gmail.com", role: "IT director" },
+//     { id: 1, name: "Nelson Nunga", email: "nnunga@gmail.com", role: "Proc director" },
+//     { id: 1, name: "Farai Kanoda", email: "fkanoda@gmail.com", role: "Fin director" },
+//     { id: 1, name: "Gibson Wodzi", email: "gwodzi0@gmail.com", role: "Proc officer" },
+// ])
 const username = "John Doe"
 
 const tableMeta = ref({

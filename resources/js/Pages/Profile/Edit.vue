@@ -1,6 +1,6 @@
 <script setup>
 import {ref} from 'vue'
-import { router } from '@inertiajs/vue3'
+import { router, useForm } from '@inertiajs/vue3'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
@@ -36,7 +36,7 @@ const cropAndUpdateImage = async () => {
     data.append('top', coordinates.top || '')
 
     try {
-        await router.patch('/profile-picture', data);
+        form.put(route('profilePicture.update'),{ data});
         console.log('Image uploaded successfully!');
         uploadedImage.value = null
     } catch (error) {
@@ -44,7 +44,26 @@ const cropAndUpdateImage = async () => {
     }
 }
 
+// const form = useForm({
+//     profilePicture: '',
+// });
 
+const updatePassword = () => {
+    form.put(route('profilePicture.update'), {
+        // preserveScroll: true,
+        // onSuccess: () => form.reset(),
+        // onError: () => {
+        //     if (form.errors.password) {
+        //         form.reset('password', 'password_confirmation');
+        //         passwordInput.value.focus();
+        //     }
+        //     if (form.errors.current_password) {
+        //         form.reset('current_password');
+        //         currentPasswordInput.value.focus();
+        //     }
+        // },
+    });
+};
 defineProps({
     mustVerifyEmail: {
         type: Boolean,
