@@ -1,8 +1,8 @@
 <template>
-  <!-- <div v-if="$page.props.flash.message"
+  <div v-if="$page.props.flash.message"
     class="p-4 text-sm text-green-700 bg-green-100  dark:bg-gray-800 dark:text-green-400" role="alert">
     <span class="font-medium">Success alert!</span> {{ $page.props.flash.message }}
-  </div> -->
+  </div>
   <div class="w-full bg-gray-100 dark:bg-gray-900">
 
     <div class="flex justify-between px-4 py-1 items-center">

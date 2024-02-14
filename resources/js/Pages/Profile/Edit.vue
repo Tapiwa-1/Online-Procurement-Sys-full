@@ -1,5 +1,7 @@
 <script setup>
 import {ref} from 'vue'
+import { router } from '@inertiajs/vue3'
+
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
@@ -16,10 +18,12 @@ let isRegister = ref(true)
 let file = ref(null)
 let cropper = ref(null)
 let uploadedImage = ref(null)
+let userImage = ref(null)
 
 const getUploadedImage = (e) => {
     file.value = e.target.files[0]
     uploadedImage.value = URL.createObjectURL(file.value)
+
 }
 const cropAndUpdateImage = async () => {
     const { coordinates } = cropper.value.getResult()
@@ -32,19 +36,15 @@ const cropAndUpdateImage = async () => {
     data.append('top', coordinates.top || '')
 
     try {
-        // await $userStore.updateUserImage(data)
-        // await $userStore.getUser()
-        // await $profileStore.getProfile(route.params.id)
-
-        // $generalStore.updateSideMenuImage($generalStore.suggested, $userStore)
-        // $generalStore.updateSideMenuImage($generalStore.following, $userStore)
-
-        // userImage.value = image.value
+        await router.patch('/profile-picture', data);
+        console.log('Image uploaded successfully!');
         uploadedImage.value = null
     } catch (error) {
         console.log(error)
     }
 }
+
+
 defineProps({
     mustVerifyEmail: {
         type: Boolean,
@@ -75,7 +75,8 @@ defineProps({
 
                             <div class="flex items-center justify-center sm:-mt-6">
                                 <label for="image" class="relative cursor-pointer">
-                                    <img class="rounded-full" width="95" src="https://picsum.photos/200">
+                                    <img v-if="!uploadedImage" class="rounded-full" width="95" :src="$page.props.auth.user.file">
+                                    <img v-else class="rounded-full" width="95" :src="userImage.value">
                                     <div
                                         class="absolute bottom-0 right-0 rounded-full bg-white shadow-xl border p-0.5 border-gray-300 inline-block w-[32px]">
                                         <PencilIcon class="-mt-1 ml-0.5" />
