@@ -3,6 +3,7 @@
     class="p-4 text-sm text-green-700 bg-green-100  dark:bg-gray-800 dark:text-green-400" role="alert">
     <span class="font-medium">Success alert!</span> {{ $page.props.flash.message }}
   </div>
+
   <div class="w-full bg-gray-100 dark:bg-gray-900">
 
     <div class="flex justify-between px-4 py-1 items-center">
@@ -74,7 +75,7 @@
     </div>
 
     <div v-if="$page.props.user.userRoles.includes('admin')">
-      <Link :href="route('dashboard')"
+      <Link :href="route('admin.dashboard.index')"
         class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white">
       <HomeIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 " />
       <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">Admin</span>
@@ -137,7 +138,7 @@ const user = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const userNavigation = [
-  { name: 'Dashboard', href: route('dashboard'), role: '' },
+  { name: 'Dashboard', href: route('admin.dashboard.index'), role: '' },
   { name: 'Settings', href: route('profile.edit'), role: '' },
 ]
 let display = ref(false);

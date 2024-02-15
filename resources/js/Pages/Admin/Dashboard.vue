@@ -48,7 +48,7 @@
                             <dl
                                 class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 dark:text-white sm:p-8">
                                 <div class="flex flex-col">
-                                    <dt class="mb-2 text-3xl font-extrabold">234</dt>
+                                    <dt class="mb-2 text-3xl font-extrabold">{{ users.length }}</dt>
                                     <dd class="text-gray-500 dark:text-gray-400">Users</dd>
                                 </div>
                                 <div class="flex flex-col">
@@ -118,7 +118,7 @@ const username = "John Doe"
 
 const tableMeta = ref({
     heading: "Users",
-    url: "/admin/users",
+    url: "admin.users.index",
     urlName: "View More"
 })
 const cpu = ref(0);
