@@ -10,7 +10,7 @@ use Inertia\Inertia;
 class DashboardController extends Controller
 {
     public function index(){
-        $users = User::all();
+        $users = User::with('roles')->take(5)->get();
         return Inertia::render("Admin/Dashboard",compact("users"));
     }
 }

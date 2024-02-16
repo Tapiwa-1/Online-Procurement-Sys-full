@@ -65,7 +65,7 @@
                         <li v-for="user in users" :key="user.id" class="py-3 sm:py-4">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0">
-                                    <img class="w-8 h-8 rounded-full" src="https://i.pravatar.cc/300" alt="Neil image">
+                                    <img class="w-8 h-8 rounded-full" :src="user.file" alt="Neil image">
                                 </div>
                                 <div class="flex-1 min-w-0 ms-4">
                                     <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
@@ -76,7 +76,9 @@
                                     </p>
                                 </div>
                                 <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                    {{ user.role }}
+                                    <template v-for="role in user.roles" :key="role.id">
+                                        <p class="mx-2"> {{ role.name }} </p>
+                                    </template>
                                 </div>
                             </div>
                         </li>

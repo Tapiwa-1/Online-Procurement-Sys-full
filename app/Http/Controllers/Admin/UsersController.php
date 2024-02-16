@@ -11,7 +11,7 @@ class UsersController extends Controller
 {
    public function index(){
 
-        $users = User::all()->paginate(5)
+        $users = User::with('role')->paginate(10)
             ->through(fn ($user) => [
                 'id' => $user->id,
                 'name' => $user->name,

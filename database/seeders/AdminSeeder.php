@@ -19,6 +19,6 @@ class AdminSeeder extends Seeder
             'email' => 'admin@example.com',
             'file'=> '/user-placeholder.png',
         ]);
-        $user->assignRole('writer', 'admin');
+        $user->assignRole('admin');
     }
 }

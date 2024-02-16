@@ -13,11 +13,37 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $faker = \Faker\Factory::create();
+        $roles = [
+            "Administrator",
+            "Procurement Manager",
+            "Procurement Officer",
+            "Finance Officer",
+            "Vendor/Supplier",
+            "Technical Evaluator",
+            "Legal Advisor",
+            "Compliance Officer",
+            "IT Administrator",
+            "User Support Specialist",
+            "Quality Assurance Officer",
+            "Project Manager",
+            "Stakeholder Liaison",
+            "Reporting Analyst"
+        ];
         $user= User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
             'file' => '/user-placeholder.png',
-        ]);
-        $user->assignRole('writer', 'admin');
+        ])->assignRole('admin');
+
+        foreach ($roles as $role) {
+                $user= User::factory()->create([
+                'name' => $faker->name,
+                'email' => $faker->unique()->safeEmail,
+                'file' => '/user-placeholder.png',
+            ])->assignRole($role);
+        }
+
+
     }
 }
