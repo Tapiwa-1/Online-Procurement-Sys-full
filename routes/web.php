@@ -35,9 +35,9 @@ Route::get('/', function () {
 //     return Inertia::render('Admin/Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-
+Route::get('/dashboard', [DashboardController::class,'index'])->middleware('auth')->name('dashboard');
 Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->group(function () {
-    Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard.index');
+
     Route::resource('/roles', RoleController::class);
     Route::post('/roles/{role}/permissions', [RoleController::class, 'givePermission'])->name('roles.permission');
     Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.permissions.revoke');

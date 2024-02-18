@@ -1,15 +1,42 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DashboardTopHeading from '@/Components/DashboardTopHeading.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import Modal from '@/Components/Modal.vue';
+import { Head, Link , useForm } from '@inertiajs/vue3';
+import { nextTick, ref } from 'vue';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
 
+const showAddRoleOverlay = ref(null)
 defineProps({
     roles: Object
 })
+
+const form = useForm({
+    name: '',
+});
+
+const submit = () => {
+    form.post(route('admin.roles.store'),{
+        preserveScroll: true,
+        onSuccess: () => closeModal(),
+        onFinish: () => form.reset(),
+    });
+
+};
+
+const closeModal = () => {
+    showAddRoleOverlay.value = false;
+
+    form.reset();
+};
 </script>
 
 <template>
     <Head title="Admin | Dashboard" />
+    <section>
     <AuthenticatedLayout>
         <template #header>
             <div class="mb-3 text-gray-500 dark:text-gray-400">
@@ -19,15 +46,15 @@ defineProps({
         <div class="py-12">
             <div class="max-w-7xl min-h-screen mx-auto sm:px-6 lg:px-8">
                 <div class=" overflow-hidden shadow-sm sm:rounded-lg">
-                    <Link :href="route('admin.roles.create')"  class=" inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                    <button @click="showAddRoleOverlay = true" class=" inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
                         <span class=" px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                             Add Roles
                         </span>
-                     </Link>
+                    </button>
                 <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class=" shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
                                         Name
@@ -39,7 +66,7 @@ defineProps({
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="role in roles" :key="role.id" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                                <tr v-for="role in roles" :key="role.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{role.name  }}
                                     </th>
@@ -57,5 +84,45 @@ defineProps({
             </div>
         </div>
     </AuthenticatedLayout>
+      <Modal :show="showAddRoleOverlay" @close="closeModal">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class=" shadow-md sm:rounded-lg">
+                         <div class="py-12">
+                            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                                <div class=" overflow-hidden shadow-sm sm:rounded-lg">
+                                    <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+                                        {{ status }}
+                                    </div>
+
+                                    <form class="m-1" @submit.prevent="submit">
+                                        <div>
+                                            <InputLabel for="name" value="name" />
+
+                                            <TextInput
+                                                id="name"
+                                                type="text"
+                                                class="mt-1 block w-full"
+                                                v-model="form.name"
+
+                                                autofocus
+                                                autocomplete="name"
+                                            />
+
+                                            <InputError class="mt-2" :message="form.errors.name" />
+                                        </div>
+                                        <div class="flex items-center justify-end mt-4">
+
+                                            <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                                Add Role
+                                            </PrimaryButton>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </Modal>
+    </section>
 
 </template>

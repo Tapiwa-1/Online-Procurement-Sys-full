@@ -84,18 +84,16 @@
                         <SunIcon v-if="isDark" class="w-6 h-6 text-gray-800 dark:text-white font-bold" />
                         <MoonIcon v-else class="w-6 h-6 text-gray-800 dark:text-white font-bold" />
                     </button>
-                    <NuxtLink v-if="false" to="/admin/dashboard"
+                    <Link v-if="$page.props.auth.user" to="/admin/dashboard"
                         class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900 dark:text-blue-200 dark:hover:text-blue-500">
-                        dashboard</NuxtLink>
+                        dashboard</Link>
 
                     <template v-else>
-                        <Link :href="route('login')"
+                        <Link :href="route('register')"
                             class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900 dark:text-blue-200 dark:hover:text-blue-500">
                             <UserCircleIcon class="w-6 h-6 text-gray-800 dark:text-white font-bold" />
                         </Link>
-
                     </template>
-
                 </div>
             </div>
         </div>

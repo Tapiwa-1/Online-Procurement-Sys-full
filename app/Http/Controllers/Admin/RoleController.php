@@ -23,7 +23,7 @@ class RoleController extends Controller
         return Inertia::render('Admin/Roles/Create');
     }
     public function store(Request $request){
-        $validated = $request->validate(['name' => 'required']);
+        $validated = $request->validate(['name' => 'required|unique:'. Role::class]);
         Role::create($validated);
 
         return to_route('admin.roles.index')->with('message','role added successfully');
