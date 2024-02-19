@@ -20,8 +20,10 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('admin.roles.store'),{
+
         preserveScroll: true,
         onSuccess: () => closeModal(),
+
         onFinish: () => form.reset(),
     });
 
@@ -122,7 +124,8 @@ const closeModal = () => {
                         </div>
                     </div>
                 </div>
-        </Modal>
+    </Modal>
+
     </section>
 
 </template>
