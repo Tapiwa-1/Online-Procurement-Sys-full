@@ -3,8 +3,24 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DashboardTopHeading from '@/Components/DashboardTopHeading.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import Pagination from '@/Components/Pagination.vue';
+import { ref,watch } from 'vue';
+import { router } from '@inertiajs/vue3';
+
+let item = ref(null)
 defineProps({
     users: Object
+})
+watch(item, value =>{
+   router.get('/admin/users',
+    {item: value},
+    {
+        preserveState: true,
+        preserveScroll: true,
+    }
+
+
+    )
+
 })
 </script>
 
@@ -20,6 +36,13 @@ defineProps({
         <div class="py-12">
             <div class="max-w-7xl min-h-screen mx-auto sm:px-6 lg:px-8">
                 <div class=" overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="flex items-center justify-between" >
+
+                        <div class="relative  " >
+
+                            <input type="text" v-model="item" id="table-search" class="block  text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
+                        </div>
+                    </div>
                 <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class=" shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

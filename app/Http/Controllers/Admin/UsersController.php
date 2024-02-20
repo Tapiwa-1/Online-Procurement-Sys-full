@@ -11,9 +11,11 @@ use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
-   public function index(){
+   public function index(Request $request){
 
-        $users = User::with('roles')->paginate(10)
+        $users = User::when($request->item,function($query,$item){
+            $query->where('name','LIKE','%'.$item.'%');
+        })->with('roles')->paginate(10)
             ->through(fn ($user) => [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -39,14 +41,14 @@ class UsersController extends Controller
         }
 
         $user->assignRole($request->roleName);
-        return back()->with('message', 'Role assigned.');
+        return back();
     }
 
     public function removeRole(User $user, Role $role)
     {
         if ($user->hasRole($role)) {
             $user->removeRole($role);
-            return back()->with('message', 'Role removed.');
+            return back();
         }
 
         return back()->with('message', 'Role not exists.');
@@ -55,10 +57,10 @@ class UsersController extends Controller
     public function givePermission(Request $request, User $user)
     {
         if ($user->hasPermissionTo($request->permissionName)) {
-            return back()->with('message', 'Permission exists.');
+            return back();
         }
         $user->givePermissionTo($request->permissionName);
-        return back()->with('message', 'Permission added.');
+        return back();
     }
 
     public function revokePermission(User $user, Permission $permission)

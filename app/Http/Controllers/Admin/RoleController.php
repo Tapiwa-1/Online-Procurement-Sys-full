@@ -14,8 +14,10 @@ class RoleController extends Controller
      * Summary of index
      * @return \Inertia\Response
      */
-    public function index(){
-        $roles = Role::all();
+    public function index(Request $request){
+        $roles = Role::when($request->item,function($query,$item){
+            $query->where('name','LIKE','%'.$item.'%');
+        })->paginate(10);
         return Inertia::render('Admin/Roles/Index',compact('roles'));
     }
 
@@ -26,7 +28,7 @@ class RoleController extends Controller
         $validated = $request->validate(['name' => 'required|unique:'. Role::class]);
         Role::create($validated);
 
-        return to_route('admin.roles.index')->with('message','role added successfully');
+        return to_route('admin.roles.index');
     }
     public function edit(Role $role){
         $assignedPermission = $role->permissions;
@@ -36,25 +38,25 @@ class RoleController extends Controller
     public function update(Request $request, Role $role){
         $validated = $request->validate(['name' => 'required']);
         $role->update($validated);
-        return to_route('admin.roles.index')->with('message','role edited successfully');
+        return to_route('admin.roles.index');
     }
     public function destroy(Role $role){
         $role->delete();
-        return to_route('admin.roles.index')->with('message','role deleted successfully');
+        return to_route('admin.roles.index');
     }
     public function givePermission(Request $request, Role $role){
         if($role->hasPermissionTo($request->permissionName)){
-            return back()->with('message', 'permission already assigned');
+            return back();
         }
 
         $role->givePermissionTo($request->permissionName);
-        return back()->with('message', 'permission  assigned');
+        return back();
     }
     public function revokePermission(Role $role, Permission $permission){
         if($role->hasPermissionTo($permission)){
             $role->revokePermissionTo($permission);
-            return back()->with('message', 'permission revoked');
+            return back();
         }
-        return back()->with('message', 'no such permission');
+        return back();
     }
 }
