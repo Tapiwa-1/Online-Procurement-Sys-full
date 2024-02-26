@@ -1,0 +1,7 @@
+Objective
+1. To Dynamically allocate roles based on user responsibilities
+2. To encrypt database values using open SSL
+3. To allow real time tracking of procurement request
+4. To automate bid processes
+5. To allow the application to run natively of both web browser and as desktop application
+

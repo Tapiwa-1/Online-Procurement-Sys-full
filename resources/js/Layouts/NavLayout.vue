@@ -160,7 +160,10 @@
             </PopoverPanel>
         </transition>
     </Popover>
-    <slot name="content"></slot>
+    <div class="bg-white dark:bg-gray-700">
+        <slot></slot>
+    </div>
+
 </template>
 
 <script setup>
