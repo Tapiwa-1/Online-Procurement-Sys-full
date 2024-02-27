@@ -45,12 +45,12 @@
 
         <div class="">
             <div class="block sm:flex sm:justify-between ">
-                <div  v-for="feature in features.feature1" :key="feature.name"   class="block w-full lg:max-w-sm p-6 mt-4 items-center bg-white border border-gray-200 rounded-lg shadow   dark:bg-gray-800 dark:border-gray-700">
+                <div  v-for="feature in features.becomeSupplier" :key="feature.name"   class="block w-full lg:max-w-sm p-6 mt-4 items-center bg-white border border-gray-200 rounded-lg shadow   dark:bg-gray-800 dark:border-gray-700">
                         <component :is="feature.icon" class="h-20 w-20 flex-shrink-0 text-white mx-auto bg-slate-950 p-5 rounded-full my-5" aria-hidden="true" />
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">{{ feature.name }}</h5>
-                     <a href="#" class="inline-flex justify-center hover:text-gray-900 items-center py-2 px-2 sm:ms-4 text-base font-small text-center text-white rounded-lg border border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400">
+                     <Link :href="route(feature.link)" class="inline-flex justify-center bg-gray-900 hover:text-gray-700 text-white items-center py-2 px-2 sm:ms-4 text-base font-small text-center text-white rounded-lg border border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400">
                         Learn more
-                    </a>
+                     </Link>
                 </div>
 
             </div>
@@ -64,6 +64,7 @@
 
 <script setup>
 import NavLayout from '../Layouts/NavLayout.vue';
+import { Head, Link } from '@inertiajs/vue3';
 import {
     UserPlusIcon,
     PaperClipIcon,
@@ -71,7 +72,9 @@ import {
     AcademicCapIcon,
     HomeModernIcon,
     QueueListIcon,
-    DocumentPlusIcon
+    DocumentPlusIcon,
+    FolderArrowDownIcon,
+    UserIcon,
 } from '@heroicons/vue/24/outline'
 
 const features = {
@@ -120,7 +123,27 @@ const features = {
         },
     ],
     becomeSupplier: [
-        {}
+        {
+            icon: UserPlusIcon,
+            name: 'How to create an account?',
+            link: 'createAccount',
+        },
+        {
+             icon: AcademicCapIcon,
+            name: 'How to get a certificate?',
+            link: 'getCertificate',
+        },
+        {
+             icon: UserIcon,
+            name: 'How to bid for a tender?',
+            link: 'tenderParticipation',
+        },
+        {
+             icon: FolderArrowDownIcon,
+            name: 'Download your certificate',
+            link: 'certificateDownload',
+        },
+
     ]
 
 }

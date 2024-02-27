@@ -31,6 +31,34 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/create-account', function () {
+    return Inertia::render('CreateAccount', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+})->name('createAccount');
+Route::get('/certificate-download', function () {
+    return Inertia::render('CertificateDownload', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+})->name('certificateDownload');
+
+Route::get('/get-certificate', function () {
+    return Inertia::render('GetCertificate', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+})->name('getCertificate');
+
+Route::get('/tender-participation', function () {
+    return Inertia::render('TenderParticipation', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+})->name('tenderParticipation');
+
+
 // Route::get('/admin/dashboard', function () {
 //     return Inertia::render('Admin/Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
