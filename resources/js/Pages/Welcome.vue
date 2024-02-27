@@ -46,7 +46,7 @@
         <div class="">
             <div class="block sm:flex sm:justify-between ">
                 <div  v-for="feature in features.feature1" :key="feature.name"   class="block w-full lg:max-w-sm p-6 mt-4 items-center bg-white border border-gray-200 rounded-lg shadow   dark:bg-gray-800 dark:border-gray-700">
-                        <component :is="feature.icon" class="h-20 w-20 flex-shrink-0 text-white mx-auto bg-slate-950 p-5 rounded-full " aria-hidden="true" />
+                        <component :is="feature.icon" class="h-20 w-20 flex-shrink-0 text-white mx-auto bg-slate-950 p-5 rounded-full my-5" aria-hidden="true" />
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">{{ feature.name }}</h5>
                      <a href="#" class="inline-flex justify-center hover:text-gray-900 items-center py-2 px-2 sm:ms-4 text-base font-small text-center text-white rounded-lg border border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400">
                         Learn more
