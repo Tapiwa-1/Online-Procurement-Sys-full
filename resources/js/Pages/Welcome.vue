@@ -58,7 +58,20 @@
         </div>
 
     </div>
+     <div class="w-full p-4 text-center bg-white border border-gray-200  shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <h5 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Get Latest News</h5>
+    </div>
+     <div class="container mx-auto">
+        <div class="block sm:flex sm:justify-between ">
+            <div  v-for="feature in features.news" :key="feature.headline"   class="block w-full lg:max-w-sm p-6 mt-4 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <img src="../../../public/img/logo.png" height="30">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">{{ feature.headline }}</h5>
+                <p class="font-normal text-gray-700 dark:text-gray-400 text-center">{{  feature.description }}</p>
+            </div>
 
+        </div>
+
+    </div>
   </NavLayout>
 </template>
 
@@ -144,7 +157,29 @@ const features = {
             link: 'certificateDownload',
         },
 
-    ]
+    ],
+    news : [
+        {
+            "headline": "Government to Implement E-Procurement System to Combat Corruption",
+            "description": "The Zimbabwean government announced plans to launch a new electronic procurement system in 2024. This initiative aims to improve transparency and efficiency in public procurement processes, potentially reducing corruption and delays in project execution. The system will facilitate online tendering, supplier registration, and contract management. [Image of E-procurement system]",
+            "image": "[Image of E-procurement system in Zimbabwe]"
+        },
+        {
+            "headline": "21 State Entities Exempt from Public Procurement Regulations",
+            "description": "In January 2024, 21 state-owned enterprises in Zimbabwe, primarily operating in competitive markets or managed by third parties, were exempted from the Public Procurement and Disposal of Public Assets Act. This decision by President Mnangagwa raised concerns about potential lack of transparency and accountability in procurement practices for these entities. [Image of Zimbabwean parliament]",
+            "image": "[Image of Zimbabwean parliament building]"
+        },
+        {
+            "headline": "World Bank Project Supports Modernization of Public Procurement",
+            "description": "The World Bank is currently collaborating with the Zimbabwean government on a project aimed at modernizing public procurement practices. This initiative focuses on strengthening regulatory frameworks, enhancing institutional capacity, and piloting an e-government procurement system. The project seeks to improve transparency, efficiency, and value for money in public spending. [Image of World Bank logo]",
+            "image": "[Image of World Bank logo]"
+        },
+        {
+            "headline": "Private Sector Advocates for Increased Transparency in Procurement",
+            "description": "Business organizations in Zimbabwe have consistently emphasized the need for greater transparency and fairness in public procurement processes. They advocate for open and competitive bidding procedures, timely information dissemination, and robust mechanisms for addressing grievances. Such measures are deemed crucial for fostering trust and promoting participation from diverse qualified businesses. [Image of Zimbabwean business meeting]",
+            "image": "[Image of Zimbabwean business meeting]"
+        }
+]
 
 }
 </script>
