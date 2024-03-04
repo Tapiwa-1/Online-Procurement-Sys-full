@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\ProfilePictureController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Request\RequestController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -59,10 +60,6 @@ Route::get('/tender-participation', function () {
 })->name('tenderParticipation');
 
 
-// Route::get('/admin/dashboard', function () {
-//     return Inertia::render('Admin/Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::get('/dashboard', [DashboardController::class,'index'])->middleware('auth')->name('dashboard');
 Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->group(function () {
 
@@ -80,6 +77,10 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
     Route::post('/users/{user}/permissions', [UsersController::class, 'givePermission'])->name('users.permissions');
     Route::delete('/users/{user}/permissions/{permission}', [UsersController::class, 'revokePermission'])->name('users.permissions.revoke');
 });
+
+//App Features Routes
+
+Route::resource('/request', RequestController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
