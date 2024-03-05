@@ -10,6 +10,10 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import DynamicInput from "@/Components/DynamicInput.vue"
 import DashboardTopHeading from '@/Components/DashboardTopHeading.vue';
 import InputField from '@/Components/InputField.vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
+import DangerButton from '@/Components/DangerButton.vue'
+import {ref } from "vue"
+
 
 defineProps({
     canResetPassword: Boolean,
@@ -24,6 +28,46 @@ const submit = () => {
     form.post(route('admin.roles.store')
     );
 };
+
+
+
+let msg = ref(null)
+let items = ref([
+    {
+        goodsOrService: "",
+        quantity:"",
+        estCost:"",
+    },
+]) // Initialize as an array with an object
+
+let participants = ref([
+    {
+        name:"",
+    },
+]) // Initialize as an array with an object
+
+function addMore() {
+    items.value.push([{
+        goodsOrService: "",
+        quantity:"",
+        estCost:""
+    }],);
+}
+
+function remove(index) {
+    items.value.splice(index, 1);
+}
+
+function addMoreParticipant() {
+    participants.value.push([{
+        name: "",
+
+    }],);
+}
+
+function removeParticipant(index) {
+    participants.value.splice(index, 1);
+}
 </script>
 
 <template>
@@ -50,26 +94,93 @@ const submit = () => {
                                     <!-- <DynamicInput/> -->
                                         <div>
                                            <InputField
-                                                label="Name"
-                                                id="name"
+                                                label="Purpose"
+                                                id="Purpose"
                                                 type="text"
                                                 class="mt-1 block w-full"
-                                                v-model="form.date"
-                                                autofocus
+                                                v-model="form.purpose"
+
+                                            />
+                                            <p id="filled_error_help" class="mt-2 text-md text-green-600 dark:text-green-400">Indicate whether for program /Project / Normal Operations</p>
+                                            <!-- <p id="filled_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">Oh, snapp!</span> Some error message.</p> -->
+                                        </div>
+                                        <div class="my-2">
+                                           <InputField
+                                                label="If Program /Project state the name"
+                                                id="Program-Project"
+                                                type="text"
+                                                class="mt-1 block w-full"
+                                                v-model="form.programProject"
+
                                             />
                                             <p id="filled_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">Oh, snapp!</span> Some error message.</p>
                                         </div>
-                                        <!-- <div>
-                                            <InputLabel for="Title" value="Title" />
-                                            <TextInput
-                                                id="name"
-                                                type="date"
-                                                class="mt-1 block w-full"
-                                                v-model="form.date"
-                                                autofocus
+                                        <SecondaryButton class="border"
+                                        @click="addMore()" >
+                                            Add More
+                                        </SecondaryButton>
+
+                                        <div v-for="(item, index) in items" :key="index" class="flex my-2">
+                                            <InputField
+                                                label="Goods or Service"
+                                                id="good-or-service"
+                                                type="text"
+                                                class="mt-1 block w-full mr-2"
+                                                v-model="item.goodsOrService"
+
+
                                             />
-                                            <InputError class="mt-2" :message="form.errors.title" />
-                                        </div> -->
+                                            <InputField
+                                                label="Quantity"
+                                                id="quantity"
+                                                type="number"
+                                                class="mt-1 block  mx-2"
+                                                v-model="item.quantity"
+
+                                            />
+                                            <InputField
+
+                                                label="Cost"
+                                                id="cost"
+                                                type="text"
+                                                class="mt-1 block"
+                                                v-model="item.estCost"
+
+                                            />
+                                             <DangerButton
+                                                    class="ml-1"
+
+                                                    @click="remove(index)"
+                                                    v-show="index != 0"
+                                                >
+                                                    Remove
+                                             </DangerButton>
+                                        </div>
+                                         <SecondaryButton class="border"
+                                        @click="addMoreParticipant()" >
+                                            Add Participants
+                                        </SecondaryButton>
+
+                                        <div v-for="(participant, index) in participants" :key="index" class="flex my-2">
+                                            <InputField
+                                                label="Name"
+                                                id="name"
+                                                type="text"
+                                                class="mt-1 block w-full mr-2"
+                                                v-model="participant.name"
+
+
+                                            />
+
+                                             <DangerButton
+                                                    class="ml-1"
+
+                                                    @click="removeParticipant(index)"
+                                                    v-show="index != 0"
+                                                >
+                                                    Remove
+                                             </DangerButton>
+                                        </div>
 
                                 </div>
                             </div>
