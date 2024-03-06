@@ -21,7 +21,15 @@
         "@headlessui/vue": "^1.7.17",
         "@heroicons/vue": "^2.1.1",
         "@protonemedia/inertiajs-tables-laravel-query-builder": "^2.2.0",
-        "@vueuse/core": "^10.7.2",
+        "@tiptap/core": "^2.2.4",
+        "@tiptap/pm": "^2.2.4",
+        "@tiptap/starter-kit": "^2.2.4",
+        "@tiptap/vue-3": "^2.2.4",
+        "@vueup/vue-quill": "^1.1.0",
+        "@vueuse/core": "^9.11.0",
+        "flowbite": "^1.6.3",
+        "nprogress": "^0.2.0",
+        "quill-blot-formatter": "^1.0.5",
         "vue-advanced-cropper": "^2.8.8"
     }
 }

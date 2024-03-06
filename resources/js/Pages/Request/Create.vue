@@ -12,7 +12,10 @@ import DashboardTopHeading from '@/Components/DashboardTopHeading.vue';
 import InputField from '@/Components/InputField.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
 import DangerButton from '@/Components/DangerButton.vue'
-import {ref } from "vue"
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
+import {ref,onMounted } from "vue"
 
 
 defineProps({
@@ -20,12 +23,26 @@ defineProps({
     status: String,
 });
 
+
+
+
 const form = useForm({
-    name: '',
+    items : [
+        {
+            goodsOrService: "",
+            quantity:"",
+            estCost:"",
+        }
+    ],
+    participants: [
+        {
+            name:"",
+        },
+    ]
 });
 
 const submit = () => {
-    form.post(route('admin.roles.store')
+    form.post(route('request.store')
     );
 };
 
@@ -52,6 +69,7 @@ function addMore() {
         quantity:"",
         estCost:""
     }],);
+    alert(participants)
 }
 
 function remove(index) {
@@ -115,46 +133,8 @@ function removeParticipant(index) {
                                             />
                                             <p id="filled_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">Oh, snapp!</span> Some error message.</p>
                                         </div>
-                                        <SecondaryButton class="border"
-                                        @click="addMore()" >
-                                            Add More
-                                        </SecondaryButton>
-
-                                        <div v-for="(item, index) in items" :key="index" class="flex my-2">
-                                            <InputField
-                                                label="Goods or Service"
-                                                id="good-or-service"
-                                                type="text"
-                                                class="mt-1 block w-full mr-2"
-                                                v-model="item.goodsOrService"
-
-
-                                            />
-                                            <InputField
-                                                label="Quantity"
-                                                id="quantity"
-                                                type="number"
-                                                class="mt-1 block  mx-2"
-                                                v-model="item.quantity"
-
-                                            />
-                                            <InputField
-
-                                                label="Cost"
-                                                id="cost"
-                                                type="text"
-                                                class="mt-1 block"
-                                                v-model="item.estCost"
-
-                                            />
-                                             <DangerButton
-                                                    class="ml-1"
-
-                                                    @click="remove(index)"
-                                                    v-show="index != 0"
-                                                >
-                                                    Remove
-                                             </DangerButton>
+                                        <div class="my-2">
+                                              <quill-editor  content-type="html" theme="snow"></quill-editor>
                                         </div>
                                          <SecondaryButton class="border"
                                         @click="addMoreParticipant()" >
