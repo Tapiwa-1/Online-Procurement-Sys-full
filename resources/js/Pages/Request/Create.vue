@@ -14,31 +14,25 @@ import SecondaryButton from '@/Components/SecondaryButton.vue'
 import DangerButton from '@/Components/DangerButton.vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import MultipleSelect from '@/Components/MultipleSelect.vue'
+import {ref, computed, onMounted } from "vue"
 
-import {ref,onMounted } from "vue"
 
-
-defineProps({
+const props = defineProps({
     canResetPassword: Boolean,
     status: String,
+    users: Object
 });
 
 
-
-
 const form = useForm({
-    items : [
-        {
-            goodsOrService: "",
-            quantity:"",
-            estCost:"",
-        }
-    ],
-    participants: [
-        {
-            name:"",
-        },
-    ]
+    purpose:'',
+    programProject:'',
+    description:'',
+    participant1:'',
+    participant2:'',
+    participant3:'',
+    participant4:'',
 });
 
 const submit = () => {
@@ -47,44 +41,41 @@ const submit = () => {
 };
 
 
+const search = ref('');
+const search1 = ref('');
+const search2 = ref('');
+const search3 = ref('');
 
-let msg = ref(null)
-let items = ref([
-    {
-        goodsOrService: "",
-        quantity:"",
-        estCost:"",
-    },
-]) // Initialize as an array with an object
+const  users  = props.users
+const  users1  = props.users
+const  users2  = props.users
+const  users3  = props.users
 
-let participants = ref([
-    {
-        name:"",
-    },
-]) // Initialize as an array with an object
+const filteredUsers = ref([]);
+const filteredUsers1 = ref([]);
+const filteredUsers2 = ref([]);
+const filteredUsers3 = ref([]);
 
-function addMore() {
-    items.value.push([{
-        goodsOrService: "",
-        quantity:"",
-        estCost:""
-    }],);
-    alert(participants)
+function filterOptions() {
+  filteredUsers.value = users.filter(user =>
+    user.name.toLowerCase().includes(search.value.toLowerCase())
+  );
+}
+function filterOptions1() {
+  filteredUsers1.value = users1.filter(user =>
+    user.name.toLowerCase().includes(search1.value.toLowerCase())
+  );
 }
 
-function remove(index) {
-    items.value.splice(index, 1);
+function filterOptions2() {
+  filteredUsers2.value = users2.filter(user =>
+    user.name.toLowerCase().includes(search2.value.toLowerCase())
+  );
 }
-
-function addMoreParticipant() {
-    participants.value.push([{
-        name: "",
-
-    }],);
-}
-
-function removeParticipant(index) {
-    participants.value.splice(index, 1);
+function filterOptions3() {
+  filteredUsers3.value = users3.filter(user =>
+    user.name.toLowerCase().includes(search3.value.toLowerCase())
+  );
 }
 </script>
 
@@ -104,11 +95,9 @@ function removeParticipant(index) {
                     <div class=" shadow-md sm:rounded-lg">
                          <div class="py-12">
                             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                                <div class=" overflow-hidden shadow-sm sm:rounded-lg">
-                                    <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-                                        {{ status }}
-                                    </div>
-                                    <!-- @submit.prevent="submit" -->
+                                <form @submit.prevent="submit" class=" overflow-hidden shadow-sm sm:rounded-lg">
+
+                                    <!--  -->
                                     <!-- <DynamicInput/> -->
                                         <div>
                                            <InputField
@@ -119,8 +108,9 @@ function removeParticipant(index) {
                                                 v-model="form.purpose"
 
                                             />
+                                            <InputError class="mt-2" :message="form.errors.purpose" />
                                             <p id="filled_error_help" class="mt-2 text-md text-green-600 dark:text-green-400">Indicate whether for program /Project / Normal Operations</p>
-                                            <!-- <p id="filled_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">Oh, snapp!</span> Some error message.</p> -->
+
                                         </div>
                                         <div class="my-2">
                                            <InputField
@@ -131,38 +121,96 @@ function removeParticipant(index) {
                                                 v-model="form.programProject"
 
                                             />
-                                            <p id="filled_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">Oh, snapp!</span> Some error message.</p>
+                                            <InputError class="mt-2" :message="form.errors.programProject" />
                                         </div>
                                         <div class="my-2">
-                                              <quill-editor  content-type="html" theme="snow"></quill-editor>
+                                              <quill-editor v-model:content="form.description" class=" min-h-[500px] text-white"  content-type="html" theme="snow"></quill-editor>
                                         </div>
-                                         <SecondaryButton class="border"
-                                        @click="addMoreParticipant()" >
-                                            Add Participants
-                                        </SecondaryButton>
+                                        <InputError class="mt-2" :message="form.errors.description" />
+                                        <div class="my-2">
+                                               <InputLabel for="name" value="Participant 1" />
+                                                <div class="relative">
+                                                    <input
+                                                    v-model="search"
+                                                    @input="filterOptions"
+                                                    placeholder="Search..."
+                                                    class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 dark:bg-slate-800 dark:text-white"
+                                                    />
+                                                    <select multiple v-model="form.participant1" id="countries_multiple" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <option value="" selected>Choose a category</option>
+                                                    <option v-for="(user, index) in filteredUsers" :key="index" :value="user.id">{{ user.name }} <span> Position:
+                                                        <template v-for="(role, index) in user.roles" :key="index">
+                                                            {{ role.name }}
+                                                        </template>
+                                                        </span>
+                                                    </option>
+                                                    </select>
+                                                </div>
+                                                <InputError class="mt-2" :message="form.errors.participant1" />
 
-                                        <div v-for="(participant, index) in participants" :key="index" class="flex my-2">
-                                            <InputField
-                                                label="Name"
-                                                id="name"
-                                                type="text"
-                                                class="mt-1 block w-full mr-2"
-                                                v-model="participant.name"
+                                                 <div class="relative">
+                                                    <InputLabel for="name" value="Participant 2" />
+                                                    <input
+                                                    v-model="search1"
+                                                    @input="filterOptions1"
+                                                    placeholder="Search..."
+                                                    class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500  dark:bg-slate-800 dark:text-white"
+                                                    />
+                                                    <select v-model="form.participant2" multiple id="countries_multiple" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <option value="" selected>Choose a category</option>
+                                                    <option v-for="(user, index) in filteredUsers1" :key="index" :value="user.id">{{ user.name }} <span> Position:
+                                                        <template v-for="(role, index) in user.roles" :key="index">
+                                                            {{ role.name }}
+                                                        </template>
+                                                        </span>
+                                                    </option>
+                                                    </select>
+                                                </div>
+                                                <InputError class="mt-2" :message="form.errors.participant2" />
+                                                   <div class="relative">
+                                                    <InputLabel for="name" value="Participant 3" />
+                                                    <input
+                                                    v-model="search2"
+                                                    @input="filterOptions2"
+                                                    placeholder="Search..."
+                                                    class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500  dark:bg-slate-800 dark:text-white"
+                                                    />
+                                                    <select v-model="form.participant3" multiple id="countries_multiple" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <option value="" selected>Choose a category</option>
+                                                    <option v-for="(user, index) in filteredUsers2" :key="index" :value="user.id">{{ user.name }} <span> Position:
+                                                        <template v-for="(role, index) in user.roles" :key="index">
+                                                            {{ role.name }}
+                                                        </template>
+                                                        </span>
+                                                    </option>
+                                                    </select>
+                                                </div>
+                                                <InputError class="mt-2" :message="form.errors.participant3" />
 
-
-                                            />
-
-                                             <DangerButton
-                                                    class="ml-1"
-
-                                                    @click="removeParticipant(index)"
-                                                    v-show="index != 0"
-                                                >
-                                                    Remove
-                                             </DangerButton>
+                                                 <div class="relative">
+                                                    <InputLabel for="name" value="Participant 4" />
+                                                    <input
+                                                    v-model="search3"
+                                                    @input="filterOptions3"
+                                                    placeholder="Search..."
+                                                    class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500  dark:bg-slate-800 dark:text-white"
+                                                    />
+                                                    <select v-model="form.participant4" multiple id="countries_multiple" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <option value="" selected>Choose a category</option>
+                                                    <option v-for="(user, index) in filteredUsers3" :key="index" :value="user.id">{{ user.name }} <span> Position:
+                                                        <template v-for="(role, index) in user.roles" :key="index">
+                                                            {{ role.name }}
+                                                        </template>
+                                                        </span>
+                                                    </option>
+                                                    </select>
+                                                </div>
+                                                <InputError class="mt-2" :message="form.errors.participant4" />
                                         </div>
-
-                                </div>
+                                        <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                                Create Request
+                                            </PrimaryButton>
+                                </form>
                             </div>
                         </div>
                     </div>

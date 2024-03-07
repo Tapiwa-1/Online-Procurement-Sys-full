@@ -61,7 +61,7 @@ Route::get('/tender-participation', function () {
 
 
 Route::get('/dashboard', [DashboardController::class,'index'])->middleware('auth')->name('dashboard');
-Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->group(function () {
+Route::middleware([ 'role:admin'])->name('admin.')->prefix('admin')->group(function () {
 
     Route::resource('/roles', RoleController::class);
     Route::post('/roles/{role}/permissions', [RoleController::class, 'givePermission'])->name('roles.permission');
