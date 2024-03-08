@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Request;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RequestCollection;
 use App\Models\Request as ModelsRequest;
+use Illuminate\Support\Facades\Request as FReq;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +17,24 @@ class RequestController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Request/Index');
+        // $allRequest = ModelsRequest::all();
+        $users = User::all();
+         $allRequest = ModelsRequest::query()
+            ->when(FReq::input('search'), function ($query, $search) {
+                $query->where('purpose', 'like', "%{$search}%");
+            })
+            ->paginate(10)
+            ->withQueryString()
+            ->through(fn ($req) => [
+                'id' => $req->id,
+                'purpose' => $req->purpose,
+                'participant1' => $req->participant1,
+                'participant2' => $req->participant2,
+                'participant3' => $req->participant3,
+                'participant4' => $req->participant4,
+            ]);
+        // dd($allRequest);
+        return Inertia::render('Request/Index', compact('allRequest','users'));
     }
 
     /**
@@ -26,6 +45,7 @@ class RequestController extends Controller
 
         $users = User::with('roles')->get();
         // dd($users);
+
         return Inertia::render('Request/Create',compact("users"));
     }
 
@@ -65,6 +85,8 @@ class RequestController extends Controller
     public function show(string $id)
     {
         //
+        $OneRequest = ModelsRequest::where('id', $id)->first();
+        return Inertia::render("Request/Show", compact('OneRequest'));
     }
 
     /**

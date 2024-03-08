@@ -16,10 +16,26 @@ return new class extends Migration
             $table->string('purpose');
             $table->string('programProject');
             $table->string('description');
-            $table->string('participant1');
-            $table->string('participant2');
-            $table->string('participant3');
-            $table->string('participant4');
+            $table->unsignedBigInteger('participant1');
+            $table->foreign('participant1')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('participant2');
+            $table->foreign('participant1')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('participant3');
+            $table->foreign('participant1')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('participant4');
+            $table->foreign('participant1')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
             // $table->int('user');
             $table->timestamps();
         });

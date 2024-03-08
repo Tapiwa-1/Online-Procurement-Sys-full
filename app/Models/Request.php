@@ -9,13 +9,32 @@ class Request extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'purpose',
-        'programProject',
-        'description',
-        'participant1',
-        'participant2',
-        'participant3',
-        'participant4',
+
+     protected $guarded = []; //if empty allows all fields to be filled
+
+     protected $casts = [
+        // 'purpose' =>'encrypted',
+        // 'description' =>'encrypted',
+        // 'programProject' => 'encrypted'
     ];
+    public function participant1()
+    {
+        //one post has one user
+        return $this->belongsTo(User::class);
+    }
+    public function participant2()
+    {
+        //one post has one user
+        return $this->belongsTo(User::class);
+    }
+    public function participant3()
+    {
+        //one post has one user
+        return $this->belongsTo(User::class);
+    }
+    public function participant4()
+    {
+        //one post has one user
+        return $this->belongsTo(User::class);
+    }
 }
