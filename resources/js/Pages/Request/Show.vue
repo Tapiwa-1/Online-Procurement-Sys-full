@@ -33,14 +33,14 @@ defineProps({
                 <div class=" overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="flex items-center justify-between" >
                     </div>
-                    <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class=" shadow-md sm:rounded-lg">
-                        <div  class="max-w-7xl mx-auto sm:px-6 lg:px-8 dark:text-white">
-                                <h2 class="font-2xl font-bold">{{OneRequest.purpose}}</h2>
-                                <div v-html="OneRequest.description">
+                    <div class=" text-gray-800 dark:text-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class=" shadow-md sm:rounded-lg">
+                            <div  class="max-w-7xl mx-auto sm:px-6 lg:px-8 dark:text-white">
+                                    <h2 class="text-2xl font-bold my-2">{{OneRequest.purpose}}</h2>
+                                    <div v-html="OneRequest.description">
+                                    </div>
                                 </div>
-                            </div>
-                    </div>
+                        </div>
                 </div>
 
 

@@ -138,6 +138,7 @@ const closeModal = () => {
                                         </template>
                                     </th>
                                     <td class="px-6 py-4">
+                                        <Link :href="route('request.edit', item.id)" class="font-medium mr-1 text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
                                         <Link :href="route('request.show', item.id)" class="font-medium mr-1 text-blue-600 dark:text-blue-500 hover:underline">Show</Link>
                                         <Link method="delete" as="button"  class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</Link>
                                     </td>

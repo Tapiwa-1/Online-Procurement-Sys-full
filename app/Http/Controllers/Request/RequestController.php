@@ -94,7 +94,9 @@ class RequestController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $OneRequest = ModelsRequest::where('id', $id)->first();
+        $users = User::with('roles')->get();
+        return Inertia::render("Request/Edit", compact('OneRequest','users'));
     }
 
     /**
