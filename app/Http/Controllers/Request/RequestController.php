@@ -8,6 +8,7 @@ use App\Models\Request as ModelsRequest;
 use Illuminate\Support\Facades\Request as FReq;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class RequestController extends Controller
@@ -33,7 +34,8 @@ class RequestController extends Controller
                 'participant3' => $req->participant3,
                 'participant4' => $req->participant4,
             ]);
-        // dd($allRequest);
+            activity()
+                ->log(Auth::user()->name . ' browse Request');
         return Inertia::render('Request/Index', compact('allRequest','users'));
     }
 
@@ -44,8 +46,6 @@ class RequestController extends Controller
     {
 
         $users = User::with('roles')->get();
-        // dd($users);
-
         return Inertia::render('Request/Create',compact("users"));
     }
 
@@ -112,6 +112,7 @@ class RequestController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        ModelsRequest::find($id)->delete();
+        return back()->with('message', 'Deleted Successfully');
     }
 }

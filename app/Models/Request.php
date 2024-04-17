@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Request extends Model
 {
@@ -13,9 +15,9 @@ class Request extends Model
      protected $guarded = []; //if empty allows all fields to be filled
 
      protected $casts = [
-        // 'purpose' =>'encrypted',
-        // 'description' =>'encrypted',
-        // 'programProject' => 'encrypted'
+        'purpose' =>'encrypted',
+        'description' =>'encrypted',
+        'programProject' => 'encrypted'
     ];
 
 }

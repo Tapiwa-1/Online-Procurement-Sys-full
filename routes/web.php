@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\logController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
@@ -76,6 +77,9 @@ Route::middleware([ 'role:admin'])->name('admin.')->prefix('admin')->group(funct
     Route::delete('/users/{user}/roles/{role}', [UsersController::class, 'removeRole'])->name('users.roles.remove');
     Route::post('/users/{user}/permissions', [UsersController::class, 'givePermission'])->name('users.permissions');
     Route::delete('/users/{user}/permissions/{permission}', [UsersController::class, 'revokePermission'])->name('users.permissions.revoke');
+
+    Route::get('/logs',[logController::class,'index'])->name('logs.index');
+    Route::get('/logs/destroy',[logController::class,'destroy'])->name('logs.destroy');
 });
 
 //App Features Routes
