@@ -34,8 +34,7 @@ class RequestController extends Controller
                 'participant3' => $req->participant3,
                 'participant4' => $req->participant4,
             ]);
-            activity()
-                ->log(Auth::user()->name . ' browse Request');
+            activity()->log(Auth::user()->name . ' browse Request');
         return Inertia::render('Request/Index', compact('allRequest','users'));
     }
 
@@ -46,6 +45,7 @@ class RequestController extends Controller
     {
 
         $users = User::with('roles')->get();
+        activity()->log(Auth::user()->name . ' Is Attempting to create A request');
         return Inertia::render('Request/Create',compact("users"));
     }
 
@@ -65,6 +65,7 @@ class RequestController extends Controller
 
         ]);
         // dd($validated);
+        activity()->log(Auth::user()->name . ' create A request called '. $request->purpose);
         ModelsRequest::create([
             'purpose' => $request->purpose,
             'programProject' => $request->programProject,
@@ -84,9 +85,10 @@ class RequestController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $users = User::with('roles')->get();
         $OneRequest = ModelsRequest::where('id', $id)->first();
-        return Inertia::render("Request/Show", compact('OneRequest'));
+        // activity()->log(Auth::user()->name . ' create A request called '. $request->purpose);
+        return Inertia::render("Request/Show", compact('OneRequest','users'));
     }
 
     /**

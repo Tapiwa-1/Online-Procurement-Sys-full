@@ -15,6 +15,7 @@ let item = ref(null)
 
 defineProps({
     OneRequest: Object,
+    users: Object,
 })
 
 </script>
@@ -36,15 +37,85 @@ defineProps({
                     <div class=" text-gray-800 dark:text-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div class=" shadow-md sm:rounded-lg">
                             <div  class="max-w-7xl mx-auto sm:px-6 lg:px-8 dark:text-white">
-                                    <h2 class="text-2xl font-bold my-2">{{OneRequest.purpose}}</h2>
+
+                                    <h2 class="text-4xl font-extrabold dark:text-white my-5">{{ OneRequest.purpose }}</h2>
                                     <div v-html="OneRequest.description">
                                     </div>
+
+
+                                    <div class="relative overflow-x-auto">
+                                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                <tr>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Participants
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Status
+                                                    </th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                        <template v-for="user in users" :key="user.id">
+                                                            <template v-if="user.id == OneRequest.participant1">
+                                                                {{user.name  }}
+                                                            </template>
+                                                        </template>
+                                                    </th>
+                                                    <td class="px-6 py-4">
+                                                        Approved
+                                                    </td>
+                                                </tr>
+                                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                        <template v-for="user in users" :key="user.id">
+                                                            <template v-if="user.id == OneRequest.participant2">
+                                                                {{user.name  }}
+                                                            </template>
+                                                        </template>
+                                                    </th>
+                                                    <td class="px-6 py-4">
+                                                        pending
+                                                    </td>
+                                                </tr>
+                                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                        <template v-for="user in users" :key="user.id">
+                                                            <template v-if="user.id == OneRequest.participant3">
+                                                                {{user.name  }}
+                                                            </template>
+                                                        </template>
+                                                    </th>
+                                                    <td class="px-6 py-4">
+                                                        pending
+                                                    </td>
+                                                </tr>
+                                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                        <template v-for="user in users" :key="user.id">
+                                                            <template v-if="user.id == OneRequest.participant4">
+                                                                {{user.name  }}
+                                                            </template>
+                                                        </template>
+                                                    </th>
+                                                    <td class="px-6 py-4">
+                                                        pending
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="mb-1 text-xl font-medium dark:text-white my-4">Request Status</div>
+                                            <div class="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700 my-3">
+                                                <div class="h-6 bg-blue-600 rounded-full dark:bg-blue-500" style="width: 45%"></div>
+                                            </div>
+                                    </div>
+
                                 </div>
                         </div>
                 </div>
-
-
-
             </div>
         </div>
         </div>
