@@ -17,25 +17,30 @@ return new class extends Migration
             $table->string('programProject');
             $table->string('description');
             $table->unsignedBigInteger('participant1');
+            $table->string('participant1approval')->nullable();
             $table->foreign('participant1')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('participant2');
+            $table->unsignedBigInteger('participant2')->nullable();
+            $table->string('participant2approval')->nullable();
             $table->foreign('participant1')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('participant3');
+            $table->unsignedBigInteger('participant3')->nullable();
+            $table->string('participant3approval')->nullable();
             $table->foreign('participant1')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('participant4');
+            $table->unsignedBigInteger('participant4')->nullable();
+            $table->string('participant4approval')->nullable();
             $table->foreign('participant1')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+            $table->string('status')->nullable();
             // $table->int('user');
             $table->timestamps();
         });

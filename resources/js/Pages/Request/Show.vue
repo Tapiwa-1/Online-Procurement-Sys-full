@@ -29,6 +29,18 @@ defineProps({
                 <DashboardTopHeading name="Manage Request Here" />
             </div>
         </template>
+
+
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+             <figure class="relative max-w-sm  hover:grayscale-0">
+                <a href="#">
+                    <img class="rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/content-gallery-3.png" alt="image description">
+                </a>
+                <figcaption class="absolute px-4 text-lg text-white bottom-6">
+                    <p>Do you want to get notified when a new component is added to Flowbite?</p>
+                </figcaption>
+            </figure>
+        </div>
         <div class="py-12">
             <div class="max-w-7xl min-h-screen mx-auto sm:px-6 lg:px-8">
                 <div class=" overflow-hidden shadow-sm sm:rounded-lg">
@@ -66,7 +78,12 @@ defineProps({
                                                         </template>
                                                     </th>
                                                     <td class="px-6 py-4">
-                                                        Approved
+                                                        <template v-if="OneRequest.participant1approval == null">
+                                                            <p class=" text-red-600"> Pending</p>
+                                                        </template>
+                                                        <template v-if="OneRequest.participant1approval">
+                                                            <p class=" text-green-600"> Approved</p>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -78,7 +95,12 @@ defineProps({
                                                         </template>
                                                     </th>
                                                     <td class="px-6 py-4">
-                                                        pending
+                                                        <template v-if="OneRequest.participant2approval == null">
+                                                            <p class=" text-red-600"> Pending</p>
+                                                        </template>
+                                                        <template v-if="OneRequest.participant2approval">
+                                                            <p class=" text-green-600"> Approved</p>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -90,7 +112,12 @@ defineProps({
                                                         </template>
                                                     </th>
                                                     <td class="px-6 py-4">
-                                                        pending
+                                                        <template v-if="OneRequest.participant3approval == null">
+                                                            <p class=" text-red-600"> Pending</p>
+                                                        </template>
+                                                        <template v-if="OneRequest.participant3approval">
+                                                            <p class=" text-green-600"> Approved</p>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -102,16 +129,25 @@ defineProps({
                                                         </template>
                                                     </th>
                                                     <td class="px-6 py-4">
-                                                        pending
+                                                        <template v-if="OneRequest.participant4approval == null">
+                                                            <p class=" text-red-600"> Pending</p>
+                                                        </template>
+                                                        <template v-if="OneRequest.participant4approval">
+                                                            <p class=" text-green-600"> Approved</p>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                         <div class="mb-1 text-xl font-medium dark:text-white my-4">Request Status</div>
                                             <div class="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700 my-3">
-                                                <div class="h-6 bg-blue-600 rounded-full dark:bg-blue-500" style="width: 45%"></div>
+                                                <div v-if="OneRequest.status == null" class="h-6 bg-blue-600 rounded-full dark:bg-blue-500" style="width: 0%"></div>
+                                                <div v-if="OneRequest.status == 25" class="h-6 bg-blue-600 rounded-full dark:bg-blue-500" style="width: 25%"></div>
                                             </div>
                                     </div>
+                                    <PrimaryButton class="my-4">
+                                                Approve
+                                    </PrimaryButton>
 
                                 </div>
                         </div>
