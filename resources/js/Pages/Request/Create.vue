@@ -15,8 +15,8 @@ import DangerButton from '@/Components/DangerButton.vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import MultipleSelect from '@/Components/MultipleSelect.vue'
-import {ref, computed, onMounted } from "vue"
-
+import {ref, computed, onMounted, reactive } from "vue"
+  import { router, usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
     canResetPassword: Boolean,
@@ -25,7 +25,8 @@ const props = defineProps({
 });
 
 
-const form = useForm({
+const form = reactive({
+    file:'',
     purpose:'',
     programProject:'',
     description:'',
@@ -34,12 +35,6 @@ const form = useForm({
     participant3:'',
     participant4:'',
 });
-
-const submit = () => {
-    form.post(route('request.store')
-    );
-};
-
 
 const search = ref('');
 const search1 = ref('');
@@ -55,6 +50,71 @@ const filteredUsers = ref([]);
 const filteredUsers1 = ref([]);
 const filteredUsers2 = ref([]);
 const filteredUsers3 = ref([]);
+
+let isValidFile = ref(null)
+let fileDisplay = ref('')
+
+ let error = ref({
+        file: null,
+        purpose: null,
+        programProject: null,
+        description: null,
+        participant1: null,
+        participant2: null,
+        participant3: null,
+        participant4: null,
+    })
+
+ const createRequestFunc = ()=>{
+        //create errors first
+        error.value.file = null
+        error.value.purpose = null
+        error.value.programProject = null
+        error.value.description = null
+        error.value.participant1 = null
+        error.value.participant2 = null
+        error.value.participant3 = null
+        error.value.participant4 = null
+
+        router.post('/request ', form,{
+            forceFormData: true,
+            preserveScroll: true,
+            onError: errors => {
+                errors && errors.file ? error.value.file = errors.file: ''
+                errors && errors.purpose ? error.value.text = errors.purpose: ''
+                errors && errors.programProject ? error.value.programProject = errors.programProject: ''
+                errors && errors.description ? error.value.description = errors.description: ''
+                errors && errors.participant1 ? error.value.participant1 = errors.participant1: ''
+                errors && errors.participant2 ? error.value.participant2 = errors.participant2: ''
+                errors && errors.participant3 ? error.value.participant3 = errors.participant3: ''
+                errors && errors.participant4 ? error.value.participant4 = errors.participant4: ''
+            },
+            // onSuccess: () => {
+            //     closeOverlay()
+            //     emit('close')
+            // }
+        })
+    }
+
+   const getUploadedImage = (e) =>{
+        form.file = e.target.files[0] // get the file that has been uploaded and put it into form.file declared above
+        let extention = form.file.name.substring(form.file.name.lastIndexOf('.') + 1); //get the file extension
+        console.log(extention)
+
+        if (extention == 'png' || extention == 'jpg' || extention == 'jpeg') {
+            isValidFile.value = true
+        } else {
+            isValidFile.value = false
+            return
+        }
+        fileDisplay.value = URL.createObjectURL(e.target.files[0])
+
+        setTimeout(() => {
+            document.getElementById('TextAreaSection').scrollIntoView({behavior: 'smooth'});
+        }, 300);
+
+   }
+
 
 function filterOptions() {
   filteredUsers.value = users.filter(user =>
@@ -99,6 +159,30 @@ function filterOptions3() {
 
                                     <!--  -->
                                     <!-- <DynamicInput/> -->
+                                        <div class="mb-2">
+                                            <div class="flex items-center bg-gray-900 w-full h-full overflow-hidden">
+                                                <div v-if="!fileDisplay" class="flex flex-col items-center mx-auto">
+                                                    <label
+                                                        for="file"
+                                                        class="hover:bg-blue-700 bg-blue-500 rounded-lg p-2.5 text-white font-extrabold cursor-pointer"
+                                                    >
+                                                        Select From Computer
+                                                    </label>
+                                                    <input
+                                                        id="file"
+                                                        class="hidden"
+                                                        type="file"
+                                                        @input="getUploadedImage($event)"
+
+                                                    >
+                                                    <div v-if="error && error.file" class="text-red-500 text-center p-2 font-extrabold">{{ error.file }}</div>
+                                                    <div v-if="!fileDisplay && isValidFile === false" class="text-red-500 text-center p-2 font-extrabold">
+                                                        File not accepted
+                                                    </div>
+                                                </div>
+                                                <img v-if="fileDisplay && isValidFile === true" class=" min-w-[400px] p-4 mx-auto" :src="fileDisplay">
+                                            </div>
+                                        </div>
                                         <div>
                                            <InputField
                                                 label="Purpose"
@@ -108,7 +192,8 @@ function filterOptions3() {
                                                 v-model="form.purpose"
 
                                             />
-                                            <InputError class="mt-2" :message="form.errors.purpose" />
+
+                                            <div v-if="error && error.purpose" class="text-red-500 p-2 font-extrabold">{{ error.purpose }}</div>
                                             <p id="filled_error_help" class="mt-2 text-md text-green-600 dark:text-green-400">Indicate whether for program /Project / Normal Operations</p>
 
                                         </div>
@@ -121,12 +206,14 @@ function filterOptions3() {
                                                 v-model="form.programProject"
 
                                             />
-                                            <InputError class="mt-2" :message="form.errors.programProject" />
+
+                                            <div v-if="error && error.programProject" class="text-red-500 p-2 font-extrabold">{{ error.programProject }}</div>
                                         </div>
                                         <div class="my-2">
                                               <quill-editor v-model:content="form.description" class=" min-h-[500px] text-white"  content-type="html" theme="snow"></quill-editor>
                                         </div>
-                                        <InputError class="mt-2" :message="form.errors.description" />
+
+                                        <div v-if="error && error.description" class="text-red-500 p-2 font-extrabold">{{ error.description }}</div>
                                         <div class="my-2">
                                                <InputLabel for="name" value="Participant 1" />
                                                 <div class="relative">
@@ -146,8 +233,8 @@ function filterOptions3() {
                                                     </option>
                                                     </select>
                                                 </div>
-                                                <InputError class="mt-2" :message="form.errors.participant1" />
 
+                                                <div v-if="error && error.participant1" class="text-red-500 p-2 font-extrabold">{{ error.participant1 }}</div>
                                                  <div class="relative">
                                                     <InputLabel for="name" value="Participant 2" />
                                                     <input
@@ -166,7 +253,8 @@ function filterOptions3() {
                                                     </option>
                                                     </select>
                                                 </div>
-                                                <InputError class="mt-2" :message="form.errors.participant2" />
+
+                                                <div v-if="error && error.participant2" class="text-red-500 p-2 font-extrabold">{{ error.participant2 }}</div>
                                                    <div class="relative">
                                                     <InputLabel for="name" value="Participant 3" />
                                                     <input
@@ -185,7 +273,8 @@ function filterOptions3() {
                                                     </option>
                                                     </select>
                                                 </div>
-                                                <InputError class="mt-2" :message="form.errors.participant3" />
+
+                                                <div v-if="error && error.participant3" class="text-red-500 p-2 font-extrabold">{{ error.participant3 }}</div>
 
                                                  <div class="relative">
                                                     <InputLabel for="name" value="Participant 4" />
@@ -205,9 +294,10 @@ function filterOptions3() {
                                                     </option>
                                                     </select>
                                                 </div>
-                                                <InputError class="mt-2" :message="form.errors.participant4" />
+
+                                                <div v-if="error && error.participant4" class="text-red-500 p-2 font-extrabold">{{ error.participant4 }}</div>
                                         </div>
-                                        <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                        <PrimaryButton @click="createRequestFunc()" class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                                 Create Request
                                             </PrimaryButton>
                                 </form>
