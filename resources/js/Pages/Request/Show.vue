@@ -34,10 +34,10 @@ defineProps({
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
              <figure class="relative max-w-sm  hover:grayscale-0">
                 <a href="#">
-                    <img class="rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/content-gallery-3.png" alt="image description">
+                    <img class="rounded-lg" :src="OneRequest.file" alt="image description">
                 </a>
                 <figcaption class="absolute px-4 text-lg text-white bottom-6">
-                    <p>Do you want to get notified when a new component is added to Flowbite?</p>
+                    <p class="bg-gray-300 text-gray-950">{{ OneRequest.purpose }}</p>
                 </figcaption>
             </figure>
         </div>

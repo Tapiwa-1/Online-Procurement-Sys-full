@@ -81,7 +81,7 @@ let fileDisplay = ref('')
             preserveScroll: true,
             onError: errors => {
                 errors && errors.file ? error.value.file = errors.file: ''
-                errors && errors.purpose ? error.value.text = errors.purpose: ''
+                errors && errors.purpose ? error.value.purpose = errors.purpose: ''
                 errors && errors.programProject ? error.value.programProject = errors.programProject: ''
                 errors && errors.description ? error.value.description = errors.description: ''
                 errors && errors.participant1 ? error.value.participant1 = errors.participant1: ''

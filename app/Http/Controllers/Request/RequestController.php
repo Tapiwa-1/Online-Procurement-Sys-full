@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use App\Services\FileService;
 
 class RequestController extends Controller
 {
@@ -54,9 +55,11 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $oneRequest = new \App\Models\Request;
+        $request->validate([
+            'file' => 'required|mimes:jpg,jpeg,png',
             'purpose' => 'required|string|max:255',
-            'programProject' => 'string|max:255',
+            'programProject' => 'required|string|max:255',
             'description' => 'required',
             'participant1' => 'required|max:255',
             'participant2' => 'required|max:255',
@@ -64,18 +67,28 @@ class RequestController extends Controller
             'participant4' => 'required|max:255',
 
         ]);
-        // dd($validated);
+
         activity()->log(Auth::user()->name . ' create A request called '. $request->purpose);
-        ModelsRequest::create([
-            'purpose' => $request->purpose,
-            'programProject' => $request->programProject,
-            'description' => $request->description,
-            'participant1' => $request->participant1[0],
-            'participant2' => $request->participant2[0],
-            'participant3' => $request->participant3[0],
-            'participant4' => $request->participant4[0]
-        ]);
+        $oneRequest = (new FileService)->updateFile($oneRequest, $request, 'request');
+        $oneRequest->purpose = $request->input('purpose');
+        $oneRequest->programProject = $request->input('programProject');
+        $oneRequest->description = $request->input('description');
+        $oneRequest->participant1 = $request->participant1[0];
+        $oneRequest->participant2 = $request->participant2[0];
+        $oneRequest->participant3 = $request->participant3[0];
+        $oneRequest->participant4 = $request->participant4[0];
+        $oneRequest->save();
+        // ModelsRequest::create([
+        //     'purpose' => $request->purpose,
+        //     'programProject' => $request->programProject,
+        //     'description' => $request->description,
+        //     'participant1' => $request->participant1[0],
+        //     'participant2' => $request->participant2[0],
+        //     'participant3' => $request->participant3[0],
+        //     'participant4' => $request->participant4[0]
+        // ]);
         // ModelsRequest::create($validated);
+         //create a file service to handle file upload
 
         return to_route('request.index');
     }

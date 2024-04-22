@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
+            $table->string('file');
             $table->string('purpose');
             $table->string('programProject');
             $table->string('description');
