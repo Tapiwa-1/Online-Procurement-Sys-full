@@ -68,7 +68,7 @@ const closeModal = () => {
             <div class="max-w-7xl min-h-screen mx-auto sm:px-6 lg:px-8">
                 <div class="  shadow-sm sm:rounded-lg">
                     <div class="flex items-center justify-between" >
-                        <Link :href="route('request.create')" class="my-auto inline-flex items-center justify-center p-0.5  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                        <Link v-if="!$page.props.user.userRoles.includes('admin')" :href="route('request.create')" class="my-auto inline-flex items-center justify-center p-0.5  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
                             <span class="p-2 my- transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                 Create Request
                             </span>
@@ -90,6 +90,9 @@ const closeModal = () => {
                                                 Purpose
                                             </th>
                                             <th scope="col" class="px-6 py-3">
+                                                Created By
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
                                                 Participant 1
                                             </th>
                                             <th scope="col" class="px-6 py-3">
@@ -109,6 +112,7 @@ const closeModal = () => {
 
                                     </thead>
                                     <tbody>
+
                                         <tr v-for="item in allRequest.data" :key="item.id"  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
 
@@ -117,11 +121,18 @@ const closeModal = () => {
                                                 </th>
                                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     <template v-for="user in users" :key="user.id">
-                                                        <template v-if="item.participant1 == user.id">
+                                                        <template v-if="item.user_id == user.id">
                                                             {{user.name  }}
                                                         </template>
                                                     </template>
 
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <template v-for="user in users" :key="user.id">
+                                                        <template v-if="item.participant2 == user.id">
+                                                            {{user.name  }}
+                                                        </template>
+                                                    </template>
                                                 </th>
                                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     <template v-for="user in users" :key="user.id">
@@ -147,7 +158,7 @@ const closeModal = () => {
                                                 <td class="px-6 py-4">
                                                     <!-- <Link :href="route('request.edit', item.id)" class="font-medium mr-1 text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> -->
                                                     <Link :href="route('request.show', item.id)" class="font-medium mr-1 text-blue-600 dark:text-blue-500 hover:underline">Show</Link>
-                                                    <Link :href="route('request.destroy', item.id)" method="delete" as="button"  class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</Link>
+                                                    <Link v-if="!$page.props.user.userRoles.includes('admin')" :href="route('request.destroy', item.id)" method="delete" as="button"  class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</Link>
                                                 </td>
 
                                         </tr>

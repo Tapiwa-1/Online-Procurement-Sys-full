@@ -21,7 +21,9 @@ class RequestController extends Controller
     {
         // $allRequest = ModelsRequest::all();
         $users = User::all();
-         $allRequest = ModelsRequest::query()
+        if(Auth::user()->hasRole('admin')){
+
+            $allRequest = ModelsRequest::query()
             ->when(FReq::input('search'), function ($query, $search) {
                 $query->where('purpose', 'like', "%{$search}%");
             })
@@ -34,9 +36,33 @@ class RequestController extends Controller
                 'participant2' => $req->participant2,
                 'participant3' => $req->participant3,
                 'participant4' => $req->participant4,
+                'user_id' => $req->user_id,
             ]);
             activity()->log(Auth::user()->name . ' browse Request');
-        return Inertia::render('Request/Index', compact('allRequest','users'));
+            return Inertia::render('Request/Index', compact('allRequest','users'));
+        }else{
+              $allRequest = ModelsRequest::query()
+            ->where('user_id', Auth::user()->id) // Filter by user_id
+            ->when(FReq::input('search'), function ($query, $search) {
+                $query->where('purpose', 'like', "%{$search}%");
+            })
+            ->paginate(10)
+            ->withQueryString()
+            ->through(fn ($req) => [
+                'id' => $req->id,
+                'purpose' => $req->purpose,
+                'participant1' => $req->participant1,
+                'participant2' => $req->participant2,
+                'participant3' => $req->participant3,
+                'participant4' => $req->participant4,
+                'user_id' => $req->user_id,
+            ]);
+            activity()->log(Auth::user()->name . ' browse Request');
+            return Inertia::render('Request/Index', compact('allRequest','users'));
+        }
+
+        // correct this code to check is the current user is admin
+
     }
 
     /**
@@ -44,7 +70,9 @@ class RequestController extends Controller
      */
     public function create()
     {
-
+        if(Auth::user()->hasRole('admin')){
+            return back();
+        }
         $users = User::with('roles')->get();
         activity()->log(Auth::user()->name . ' Is Attempting to create A request');
         return Inertia::render('Request/Create',compact("users"));
@@ -55,6 +83,9 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
+        if(Auth::user()->hasRole('admin')){
+            return back();
+        }
         $oneRequest = new \App\Models\Request;
         $request->validate([
             'file' => 'required|mimes:jpg,jpeg,png',
@@ -77,6 +108,7 @@ class RequestController extends Controller
         $oneRequest->participant2 = $request->participant2[0];
         $oneRequest->participant3 = $request->participant3[0];
         $oneRequest->participant4 = $request->participant4[0];
+        $oneRequest->user_id = Auth::user()->id;
         $oneRequest->save();
         // ModelsRequest::create([
         //     'purpose' => $request->purpose,
@@ -109,6 +141,9 @@ class RequestController extends Controller
      */
     public function edit(string $id)
     {
+        if(Auth::user()->hasRole('admin')){
+            return back();
+        }
         $OneRequest = ModelsRequest::where('id', $id)->first();
         $users = User::with('roles')->get();
         return Inertia::render("Request/Edit", compact('OneRequest','users'));
@@ -127,6 +162,9 @@ class RequestController extends Controller
      */
     public function destroy(string $id)
     {
+        if(Auth::user()->hasRole('admin')){
+            return back();
+        }
         ModelsRequest::find($id)->delete();
         return back()->with('message', 'Deleted Successfully');
     }

@@ -42,7 +42,7 @@ return new class extends Migration
                 ->on('users')
                 ->onDelete('cascade');
             $table->string('status')->nullable();
-            // $table->int('user');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

@@ -145,7 +145,7 @@ defineProps({
                                                 <div v-if="OneRequest.status == 25" class="h-6 bg-blue-600 rounded-full dark:bg-blue-500" style="width: 25%"></div>
                                             </div>
                                     </div>
-                                    <PrimaryButton class="my-4">
+                                    <PrimaryButton v-if="!$page.props.user.userRoles.includes('admin')" class="my-4">
                                                 Approve
                                     </PrimaryButton>
 

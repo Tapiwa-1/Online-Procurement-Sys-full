@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\ProfilePictureController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Request\PendingRequestController;
 use App\Http\Controllers\Request\RequestController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -85,6 +86,7 @@ Route::middleware([ 'role:admin'])->name('admin.')->prefix('admin')->group(funct
 //App Features Routes
 
 Route::resource('/request', RequestController::class);
+// Route::get('/pending-requests',[PendingRequestController::class,'index'])->name('pendingRequest');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
