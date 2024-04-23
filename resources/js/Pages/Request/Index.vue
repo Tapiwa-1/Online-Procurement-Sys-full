@@ -62,10 +62,11 @@ const closeModal = () => {
             <div class="mb-3 text-gray-500 dark:text-gray-400">
                 <DashboardTopHeading name="Manage Request Here" />
             </div>
+
         </template>
         <div class="py-12">
             <div class="max-w-7xl min-h-screen mx-auto sm:px-6 lg:px-8">
-                <div class=" overflow shadow-sm sm:rounded-lg">
+                <div class="  shadow-sm sm:rounded-lg">
                     <div class="flex items-center justify-between" >
                         <Link :href="route('request.create')" class="my-auto inline-flex items-center justify-center p-0.5  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
                             <span class="p-2 my- transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
@@ -78,74 +79,84 @@ const closeModal = () => {
                         </div>
                     </div>
                     <div class="bg-white dark:bg-gray-900 overflow shadow-sm sm:rounded-lg">
-                    <div class=" shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 overflow">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Purpose
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Participant 1
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Participant 2
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Participant 3
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Participant 4
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Action
-                                    </th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="item in allRequest.data" :key="item.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{item.purpose  }}
-                                    </th>
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <template v-for="user in users" :key="user.id">
-                                            <template v-if="item.participant1 == user.id">
-                                                {{user.name  }}
-                                            </template>
-                                        </template>
 
-                                    </th>
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <template v-for="user in users" :key="user.id">
-                                            <template v-if="item.participant2 == user.id">
-                                                {{user.name  }}
-                                            </template>
-                                        </template>
-                                    </th>
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <template v-for="user in users" :key="user.id">
-                                            <template v-if="item.participant3 == user.id">
-                                                {{user.name  }}
-                                            </template>
-                                        </template>
-                                    </th>
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <template v-for="user in users" :key="user.id">
-                                            <template v-if="item.participant4 == user.id">
-                                                {{user.name  }}
-                                            </template>
-                                        </template>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        <Link :href="route('request.edit', item.id)" class="font-medium mr-1 text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
-                                        <Link :href="route('request.show', item.id)" class="font-medium mr-1 text-blue-600 dark:text-blue-500 hover:underline">Show</Link>
-                                        <Link :href="route('request.destroy', item.id)" method="delete" as="button"  class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</Link>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+
+                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">
+                                                Purpose
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Participant 1
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Participant 2
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Participant 3
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Participant 4
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Action
+                                            </th>
+                                        </tr>
+
+
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="item in allRequest.data" :key="item.id"  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+
+
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <p>{{item.purpose  }}</p>
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <template v-for="user in users" :key="user.id">
+                                                        <template v-if="item.participant1 == user.id">
+                                                            {{user.name  }}
+                                                        </template>
+                                                    </template>
+
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <template v-for="user in users" :key="user.id">
+                                                        <template v-if="item.participant2 == user.id">
+                                                            {{user.name  }}
+                                                        </template>
+                                                    </template>
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <template v-for="user in users" :key="user.id">
+                                                        <template v-if="item.participant3 == user.id">
+                                                            {{user.name  }}
+                                                        </template>
+                                                    </template>
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <template v-for="user in users" :key="user.id">
+                                                        <template v-if="item.participant4 == user.id">
+                                                            {{user.name  }}
+                                                        </template>
+                                                    </template>
+                                                </th>
+                                                <td class="px-6 py-4">
+                                                    <!-- <Link :href="route('request.edit', item.id)" class="font-medium mr-1 text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> -->
+                                                    <Link :href="route('request.show', item.id)" class="font-medium mr-1 text-blue-600 dark:text-blue-500 hover:underline">Show</Link>
+                                                    <Link :href="route('request.destroy', item.id)" method="delete" as="button"  class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</Link>
+                                                </td>
+
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
                 </div>
 
 

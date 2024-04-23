@@ -1,7 +1,5 @@
 Objective
-1. To Dynamically allocate roles based on user responsibilities
-2. To encrypt database values using open SSL
-3. To allow real time tracking of procurement request
-4. To automate bid processes
-5. To allow the application to run natively of both web browser and as desktop application
-
+To create  secure procurement requests using AES 126 and AES 256
+To allow digital signing of procurement requests when being transferred from one department to another 
+To all real time tracking of all request
+To track all user’s activity for ease auditing 
