@@ -14,35 +14,19 @@ return new class extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->string('file');
-            $table->string('purpose');
-            $table->string('programProject');
-            $table->string('description');
-            $table->unsignedBigInteger('participant1');
-            $table->string('participant1approval')->nullable();
-            $table->foreign('participant1')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
+             $table->text('purpose');
+            $table->text('programProject');
+            $table->text('description');
+            $table->unsignedBigInteger('participant1')->nullable();
             $table->unsignedBigInteger('participant2')->nullable();
-            $table->string('participant2approval')->nullable();
-            $table->foreign('participant1')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
             $table->unsignedBigInteger('participant3')->nullable();
-            $table->string('participant3approval')->nullable();
-            $table->foreign('participant1')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
             $table->unsignedBigInteger('participant4')->nullable();
-            $table->string('participant4approval')->nullable();
-            $table->foreign('participant1')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
-            $table->string('status')->nullable();
-            $table->integer('user_id');
+            $table->boolean('participant1approval')->default(false);
+            $table->boolean('participant2approval')->default(false);
+            $table->boolean('participant3approval')->default(false);
+            $table->boolean('participant4approval')->default(false);
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -20,40 +20,26 @@ class PendingRequestController extends Controller
         if(Auth::user()->hasRole('admin')){
             return back();
         }
+
         $userId = Auth::user()->id;
-        $allRequest = ModelsRequest::query()
-        ->where('user_id', Auth::user()->id) // Filter by user_id
-          ->where(function ($query) use ($userId) {
-        $query->where('participant1', $userId)
-              ->orWhere('participant2', $userId)
-              ->orWhere('participant3', $userId)
-              ->orWhere('participant4', $userId);
-        })
-        ->whereNull('participant1approved')
-        ->whereNull('participant2approved')
-        ->whereNull('participant3approved')
-        ->whereNull('participant4approved')
-            ->when(FReq::input('search'), function ($query, $search) {
-                $query->where('purpose', 'like', "%{$search}%");
-            })
-        ->paginate(10)
-        ->withQueryString()
-            ->through(fn ($req) => [
-            'id' => $req->id,
-            'purpose' => $req->purpose,
-            'participant1' => $req->participant1,
-            'participant1approved' => $req->participant1approved,
-            'participant2' => $req->participant2,
-            'participant2approved' => $req->participant2approved,
-            'participant3' => $req->participant3,
-            'participant3approved' => $req->participant3approved,
-            'participant4' => $req->participant4,
-            'participant4approved' => $req->participant4approved,
-            'user_id' => $req->user_id,
-        ]);
+
+
+            $allRequest = ModelsRequest::where('participant1', $userId)
+            ->where('participant1approval', false)
+            ->orWhere('participant2', $userId)
+            ->where('participant2approval', false)
+            ->orWhere('participant3', $userId)
+            ->where('participant3approval', false)
+            ->orWhere('participant4', $userId)
+            ->where('participant4approval', false)
+            ->get();
+
+        // Process and display the $pendingRequests collection as needed
+
+            //code not giving output where it should look for a field in a Procrument request where the authenticated user should see all his pending request based on the field participant1..4 if his auth is there and if the field participant1..4approval is false
         //  select where participant1 or   participant1 or participant1 or participant1 is Auth::user()->id and particapant1approval, particapant2approval, particapant3approval, particapant4approval is null
         activity()->log(Auth::user()->name . ' browse Request');
-        return Inertia::render('Request/Index', compact('allRequest','users'));
+        return Inertia::render('Request/Pending', compact('allRequest','users'));
 
 
         // correct this code to check is the current user is admin

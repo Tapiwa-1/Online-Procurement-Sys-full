@@ -86,7 +86,7 @@ Route::middleware([ 'role:admin'])->name('admin.')->prefix('admin')->group(funct
 //App Features Routes
 
 Route::resource('/request', RequestController::class);
-// Route::get('/pending-requests',[PendingRequestController::class,'index'])->name('pendingRequest');
+Route::get('/pending-requests',[PendingRequestController::class,'index'])->name('pendingRequest');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
