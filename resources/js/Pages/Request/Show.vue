@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DashboardTopHeading from '@/Components/DashboardTopHeading.vue';
 import Modal from '@/Components/Modal.vue';
 import { createInertiaApp, Head, Link , useForm, router  } from '@inertiajs/vue3';
-import { nextTick, ref,watch } from 'vue';
+import { nextTick, ref,watch,computed } from 'vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -13,15 +13,40 @@ import Pagination from '@/Components/Pagination.vue'
 
 let item = ref(null)
 
-defineProps({
+// Define props
+const { OneRequest } = defineProps({
     OneRequest: Object,
-    users: Object,
-})
+    users: Object, // Assuming you have a users prop as well
+});
+
+// Create an array to store approval values
+const approvalArr = ref([
+    OneRequest.participant1approval,
+    OneRequest.participant2approval,
+    OneRequest.participant3approval,
+    OneRequest.participant4approval
+]);
 
 const approve = async () => {
-   router.patch('/approve-request/2');
+   router.patch('/approve-request/' + OneRequest.id);
 };
 
+const progressWidth = computed(() => {
+  // Ensure approvalArr.value is an array before filtering
+  if (!Array.isArray(approvalArr.value)) {
+    return 0; // Handle case where approvalArr isn't an array
+  }
+
+  const approvedCount = approvalArr.value.filter((value) => value === 1).length;
+  const totalParticipants = approvalArr.value.length;
+
+  if (totalParticipants === 0) {
+    return 0; // Handle case with no participants
+  }
+
+  const progress = (approvedCount / totalParticipants) * 100;
+  return Math.min(progress, 100); // Ensure progress doesn't exceed 100%
+});
 </script>
 
 <template>
@@ -82,7 +107,7 @@ const approve = async () => {
                                                         </template>
                                                     </th>
                                                     <td class="px-6 py-4">
-                                                        <template v-if="OneRequest.participant1approval == null">
+                                                        <template v-if="OneRequest.participant1approval == 0">
                                                             <p class=" text-red-600"> Pending</p>
                                                         </template>
                                                         <template v-if="OneRequest.participant1approval">
@@ -99,7 +124,7 @@ const approve = async () => {
                                                         </template>
                                                     </th>
                                                     <td class="px-6 py-4">
-                                                        <template v-if="OneRequest.participant2approval == null">
+                                                        <template v-if="OneRequest.participant2approval == 0">
                                                             <p class=" text-red-600"> Pending</p>
                                                         </template>
                                                         <template v-if="OneRequest.participant2approval">
@@ -116,7 +141,7 @@ const approve = async () => {
                                                         </template>
                                                     </th>
                                                     <td class="px-6 py-4">
-                                                        <template v-if="OneRequest.participant3approval == null">
+                                                        <template v-if="OneRequest.participant3approval == 0">
                                                             <p class=" text-red-600"> Pending</p>
                                                         </template>
                                                         <template v-if="OneRequest.participant3approval">
@@ -133,7 +158,7 @@ const approve = async () => {
                                                         </template>
                                                     </th>
                                                     <td class="px-6 py-4">
-                                                        <template v-if="OneRequest.participant4approval == null">
+                                                        <template v-if="OneRequest.participant4approval == 0">
                                                             <p class=" text-red-600"> Pending</p>
                                                         </template>
                                                         <template v-if="OneRequest.participant4approval">
@@ -145,9 +170,10 @@ const approve = async () => {
                                         </table>
                                         <div class="mb-1 text-xl font-medium dark:text-white my-4">Request Status</div>
                                             <div class="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700 my-3">
-                                                <div v-if="OneRequest.status == null" class="h-6 bg-blue-600 rounded-full dark:bg-blue-500" style="width: 0%"></div>
-                                                <div v-if="OneRequest.status == 25" class="h-6 bg-blue-600 rounded-full dark:bg-blue-500" style="width: 25%"></div>
+                                                <div  class="h-6 bg-blue-600 rounded-full dark:bg-blue-500" :style="{ width: progressWidth + '%' }"></div>
+
                                             </div>
+
                                     </div>
                                     <PrimaryButton v-if="!$page.props.user.userRoles.includes('admin')" role="link" @click="approve()" class="my-4">
                                                 Approve
