@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DashboardTopHeading from '@/Components/DashboardTopHeading.vue';
 import Modal from '@/Components/Modal.vue';
-import { createInertiaApp, Head, Link , useForm, router   } from '@inertiajs/vue3';
+import { createInertiaApp, Head, Link , useForm, router  } from '@inertiajs/vue3';
 import { nextTick, ref,watch } from 'vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -17,6 +17,10 @@ defineProps({
     OneRequest: Object,
     users: Object,
 })
+
+const approve = async () => {
+   router.patch('/approve-request/2');
+};
 
 </script>
 
@@ -145,7 +149,7 @@ defineProps({
                                                 <div v-if="OneRequest.status == 25" class="h-6 bg-blue-600 rounded-full dark:bg-blue-500" style="width: 25%"></div>
                                             </div>
                                     </div>
-                                    <PrimaryButton v-if="!$page.props.user.userRoles.includes('admin')" class="my-4">
+                                    <PrimaryButton v-if="!$page.props.user.userRoles.includes('admin')" role="link" @click="approve()" class="my-4">
                                                 Approve
                                     </PrimaryButton>
 

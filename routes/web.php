@@ -87,12 +87,13 @@ Route::middleware([ 'role:admin'])->name('admin.')->prefix('admin')->group(funct
 
 Route::resource('/request', RequestController::class);
 Route::get('/pending-requests',[PendingRequestController::class,'index'])->name('pendingRequest');
+Route::patch('/approve-request/{id}',[PendingRequestController::class,'approveRequest'])->name('approveRequest');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::patch('/profile-picture', [ProfilePictureController::class, 'update'])->name('profilePicture.update');
+    Route::put('/profile-picture', [ProfilePictureController::class, 'update'])->name('profilePicture.update');
 });
 
 require __DIR__.'/auth.php';
