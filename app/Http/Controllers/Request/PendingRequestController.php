@@ -15,7 +15,7 @@ class PendingRequestController extends Controller
 {
     public function index()
     {
-        // $allRequest = ModelsRequest::all();
+        $userId = Auth::user()->id;
         $users = User::all();
         if(Auth::user()->hasRole('admin')){
             return back();
@@ -39,7 +39,7 @@ class PendingRequestController extends Controller
             //code not giving output where it should look for a field in a Procrument request where the authenticated user should see all his pending request based on the field participant1..4 if his auth is there and if the field participant1..4approval is false
         //  select where participant1 or   participant1 or participant1 or participant1 is Auth::user()->id and particapant1approval, particapant2approval, particapant3approval, particapant4approval is null
         activity()->log(Auth::user()->name . ' browse Request');
-        return Inertia::render('Request/Pending', compact('allRequest','users'));
+        return Inertia::render('Request/Pending', compact('allRequest','users', 'userId'));
 
 
         // correct this code to check is the current user is admin
@@ -69,6 +69,6 @@ class PendingRequestController extends Controller
         // Save the updated request
         $procurementRequest->save();
 
-       return back();
+        return to_route('pendingRequest');
     }
 }

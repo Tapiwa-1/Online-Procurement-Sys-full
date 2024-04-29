@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Services\FileService;
 class ProfilePictureController extends Controller
 {
+    // public function index(){
+
+    // }
     public function update(Request $request)
     {
-        dd($request);
         $request->validate([ 'file' => 'required|mimes:jpg,jpeg,png' ]);
         $user = (new FileService)->updateFile(auth()->user(), $request, 'user');
         $user->save();

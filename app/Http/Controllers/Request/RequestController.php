@@ -141,6 +141,7 @@ class RequestController extends Controller
      */
     public function edit(string $id)
     {
+
         if(Auth::user()->hasRole('admin')){
             return back();
         }
@@ -165,7 +166,21 @@ class RequestController extends Controller
         if(Auth::user()->hasRole('admin')){
             return back();
         }
-        ModelsRequest::find($id)->delete();
+        $request = ModelsRequest::find($id);
+
+        if($request->user_id != Auth::user()->id){
+            return back()->with('message', 'Delete operation failed');
+        }
+
+        if (!empty($request->file)) {
+            $currentFile = public_path() . $request->file;
+
+            if (file_exists($currentFile)) {
+                unlink($currentFile);
+            }
+        }
+
+        $request->delete();
         return back()->with('message', 'Deleted Successfully');
     }
 }

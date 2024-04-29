@@ -61,9 +61,13 @@
       <Link :href="route('dashboard')"
         class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white">
       <HomeIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 " />
-      <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">Admin</span>
+      <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">Home</span>
       </Link>
-
+      <Link :href="route('admin.overview')"
+        class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white">
+      <ArrowTrendingUpIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 " />
+      <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">System Overview</span>
+      </Link>
       <Link :href="route('admin.roles.index')"
         class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white">
       <UserGroupIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 " />
@@ -107,6 +111,11 @@
         </Link>
     </div>
 
+    <Link :href="route('procurement-article.index')"
+            class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white">
+            <DocumentIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 " />
+            <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">Articles</span>
+    </Link>
   </div>
   <header class="bg-white shadow dark:bg-gray-700" v-if="$slots.header">
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -145,6 +154,7 @@ import {
   DocumentIcon,
   ClockIcon,
   CheckIcon,
+  ArrowTrendingUpIcon,
 
 } from '@heroicons/vue/24/outline'
 import { ref } from 'vue';

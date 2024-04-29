@@ -7,10 +7,12 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\ProfilePictureController;
+use App\Http\Controllers\Articles\ProcurementArticleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Request\ApprovedRequestController;
 use App\Http\Controllers\Request\PendingRequestController;
 use App\Http\Controllers\Request\RequestController;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -66,6 +68,7 @@ Route::get('/tender-participation', function () {
 Route::get('/dashboard', [DashboardController::class,'index'])->middleware('auth')->name('dashboard');
 Route::middleware([ 'role:admin'])->name('admin.')->prefix('admin')->group(function () {
 
+    Route::get('/overview', [DashboardController::class,'overview'])->middleware('auth')->name('overview');
     Route::resource('/roles', RoleController::class);
     Route::post('/roles/{role}/permissions', [RoleController::class, 'givePermission'])->name('roles.permission');
     Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.permissions.revoke');
@@ -86,10 +89,14 @@ Route::middleware([ 'role:admin'])->name('admin.')->prefix('admin')->group(funct
 
 //App Features Routes
 
+//User Requests
 Route::resource('/request', RequestController::class);
 Route::get('/approved-requests',[ApprovedRequestController::class,'index'])->name('approvedRequest');
 Route::get('/pending-requests',[PendingRequestController::class,'index'])->name('pendingRequest');
 Route::patch('/approve-request/{id}',[PendingRequestController::class,'approveRequest'])->name('approveRequest');
+
+//Procurement Articles
+Route::resource('/procurement-article', ProcurementArticleController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

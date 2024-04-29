@@ -48,7 +48,7 @@
                             <dl
                                 class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 dark:text-white sm:p-8">
                                 <div class="flex flex-col">
-                                    <dt class="mb-2 text-3xl font-extrabold">{{ users.length }}</dt>
+                                    <dt class="mb-2 text-3xl font-extrabold">{{ allUsers }}</dt>
                                     <dd class="text-gray-500 dark:text-gray-400">Users</dd>
                                 </div>
                                 <div class="flex flex-col">
@@ -106,7 +106,8 @@ import { Head } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
 
 defineProps({
-    users: Object
+    users: Object,
+    allUsers: Number,
 })
 // const users = ref([
 //     { id: 1, name: "Tapiwa Motsi", email: "tmosti10@gmail.com", role: "Admin" },
