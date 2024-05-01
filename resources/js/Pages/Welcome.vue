@@ -62,12 +62,12 @@
         <h5 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Get Latest News</h5>
     </div>
      <div class="container mx-auto">
-        <div class="block sm:flex sm:justify-between ">
-            <div  v-for="feature in features.news" :key="feature.headline"   class="block w-full lg:max-w-sm p-6 mt-4 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-            <img src="../../../public/img/logo.png" height="30">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">{{ feature.headline }}</h5>
-                <p class="font-normal text-gray-700 dark:text-gray-400 text-center">{{  feature.description }}</p>
-            </div>
+        <div class="block lg:flex lg:justify-between ">
+            <Link :href="route('procurementArticle', feature.id)"  v-for="feature in procurementArticles" :key="feature.id"   class="block w-full lg:max-w-sm p-6 mt-4 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <img :src="feature.file" height="30">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">{{ feature.name }}</h5>
+                <p class="font-normal text-gray-700 dark:text-gray-400 text-center">{{  feature.summary }}</p>
+            </Link>
 
         </div>
 
@@ -89,6 +89,11 @@ import {
     FolderArrowDownIcon,
     UserIcon,
 } from '@heroicons/vue/24/outline'
+
+defineProps({
+    procurementArticles: Object,
+
+})
 
 const features = {
     feature1 : [

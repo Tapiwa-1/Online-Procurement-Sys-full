@@ -16,16 +16,11 @@ class ProcurementArticleController extends Controller
      */
     public function index(Request $request)
     {
+        if(Auth::user()->hasRole('admin') && !Auth::user()->hasRole('Procurement Officer')){
+            return back();
+        }
+        $procurementArticles = ProcurementArticle::all();
 
-        $procurementArticles = ProcurementArticle::when($request->item,function($query,$item){
-            $query->where('name','LIKE','%'.$item.'%');
-        })->with('roles')->paginate(10)
-            ->through(fn ($user) => [
-                'id' => $procurementArticles->id,
-                'name' => $procurementArticles->name,
-                'summary' => $procurementArticles->summary,
-                'description' => $procurementArticles->description,
-        ]);;
         return Inertia::render('Articles/Index', compact('procurementArticles'));
     }
 
@@ -34,6 +29,9 @@ class ProcurementArticleController extends Controller
      */
     public function create()
     {
+        if(Auth::user()->hasRole('admin') && !Auth::user()->hasRole('Procurement Officer')){
+            return back();
+        }
         //
         return Inertia::render('Articles/Create');
     }
@@ -43,16 +41,17 @@ class ProcurementArticleController extends Controller
      */
     public function store(Request $request)
     {
-
-        if(Auth::user()->hasRole('admin')){
+        if(Auth::user()->hasRole('admin') && !Auth::user()->hasRole('Procurement Officer')){
             return back();
         }
+
         $article = new \App\Models\ProcurementArticle;
         $request->validate([
             'file' => 'required|mimes:jpg,jpeg,png',
             'name' => 'required|string|max:255',
             'summary' => 'required|string',
             'description' => 'required',
+
         ]);
 
         activity()->log(Auth::user()->name . ' create an article called '. $request->name);
@@ -60,7 +59,7 @@ class ProcurementArticleController extends Controller
         $article->name = $request->input('name');
         $article->summary = $request->input('summary');
         $article->description = $request->input('description');
-        // $oneRequest->user_id = Auth::user()->id;
+        $article->user_id = Auth::user()->id;
         $article->save();
         return to_route('procurement-article.index');
     }
@@ -70,7 +69,10 @@ class ProcurementArticleController extends Controller
      */
     public function show(ProcurementArticle  $procurementArticle)
     {
-        //
+        if(Auth::user()->hasRole('admin') && !Auth::user()->hasRole('Procurement Officer')){
+            return back();
+        }
+        return Inertia::render('Articles/Show', compact('procurementArticle'));
     }
 
     /**
@@ -94,6 +96,24 @@ class ProcurementArticleController extends Controller
      */
     public function destroy(ProcurementArticle  $procurementArticle)
     {
-        //
+        if(Auth::user()->hasRole('admin') && !Auth::user()->hasRole('Procurement Officer')){
+            return back();
+        }
+
+
+        if($procurementArticle->user_id != Auth::user()->id){
+            return back()->with('message', 'Delete operation failed');
+        }
+
+        if (!empty($procurementArticle->file)) {
+            $currentFile = public_path() . $procurementArticle->file;
+
+            if (file_exists($currentFile)) {
+                unlink($currentFile);
+            }
+        }
+
+        $procurementArticle->delete();
+        return back()->with('message', 'Deleted Successfully');
     }
 }

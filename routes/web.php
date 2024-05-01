@@ -12,7 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Request\ApprovedRequestController;
 use App\Http\Controllers\Request\PendingRequestController;
 use App\Http\Controllers\Request\RequestController;
-
+use App\Models\ProcurementArticle;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,6 +30,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
+        'procurementArticles'=>ProcurementArticle::all(),
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -37,6 +38,14 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/procurement-article/{id}', function ($id) {
+
+    return Inertia::render('ProcurementArticle', [
+        'procurementArticle'=>ProcurementArticle::findOrFail($id),
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+})->name('procurementArticle');
 Route::get('/create-account', function () {
     return Inertia::render('CreateAccount', [
         'canLogin' => Route::has('login'),
